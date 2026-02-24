@@ -147,6 +147,7 @@ alias vim="vim -c \"syntax on\""
 alias ra="ranger"
 alias rr="source ranger"
 alias cld="claude"
+alias oc="opencode"
 
 # ---------
 # git alias
