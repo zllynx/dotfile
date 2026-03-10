@@ -143,6 +143,7 @@ alias ta="tmux attach-session -t"
 alias tf="tmuxifier"
 alias c="clear"
 alias lg="lazygit"
+alias lzd="lazydocker"
 alias vim="vim -c \"syntax on\""
 alias ra="ranger"
 alias rr="source ranger"
@@ -163,7 +164,7 @@ alias glg="git log --oneline"
 # proxy setting
 # -------------
 
-alias setproxy="export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890"
+alias setproxy="export https_proxy=http://127.0.0.1:10808 http_proxy=http://127.0.0.1:10808 all_proxy=socks5://127.0.0.1:10808"
 alias unsetproxy="unset https_proxy http_proxy all_proxy"
 
 # ----
