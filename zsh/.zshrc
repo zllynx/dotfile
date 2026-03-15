@@ -309,6 +309,11 @@ export HF_ENDPOINT=https://hf-mirror.com
 # tmuxifier layout file is placed in $TMUXIFIER_LAYOUT_PATH
 # $TMUXIFIER_LAYOUT_PATH default is where the tmuxifier installed.
 # $HOME/.tmux/plugins/tmuxifier/layouts/
+
+# auto-install tmuxifier if not exists
+if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
+	git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
+fi
 eval "$(tmuxifier init -)"
 
 
