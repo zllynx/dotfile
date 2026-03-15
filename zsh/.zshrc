@@ -164,8 +164,51 @@ alias glg="git log --oneline"
 # proxy setting
 # -------------
 
-alias setproxy="export https_proxy=http://127.0.0.1:10808 http_proxy=http://127.0.0.1:10808 all_proxy=socks5://127.0.0.1:10808"
-alias unsetproxy="unset https_proxy http_proxy all_proxy"
+# 代理端口配置（可在 .user_env.sh 中覆盖）
+export PROXY_PORT=${PROXY_PORT:-10808}
+export PROXY_TYPE=${PROXY_TYPE:-http}
+
+# 设置代理主机（WSL mirror 模式统一使用 127.0.0.1）
+setup_proxy_host() {
+    if [[ -z "$PROXY_HOST" ]]; then
+        export PROXY_HOST="127.0.0.1"
+    fi
+}
+
+# 设置代理
+setproxy() {
+    setup_proxy_host
+
+    local proxy_url="$PROXY_TYPE://$PROXY_HOST:$PROXY_PORT"
+    local socks_url="socks5://$PROXY_HOST:$PROXY_PORT"
+
+    export http_proxy="$proxy_url"
+    export https_proxy="$proxy_url"
+    export all_proxy="$socks_url"
+    export no_proxy="localhost,127.0.0.1,localaddress,.local"
+
+    echo "✅ 代理已启动: $proxy_url"
+    echo "测试连接: curl -I https://www.google.com"
+}
+
+# 取消代理
+unsetproxy() {
+    unset http_proxy
+    unset https_proxy
+    unset all_proxy
+    unset no_proxy
+    echo "❌ 代理已关闭"
+}
+
+# 测试代理
+testproxy() {
+    if [[ -n "$http_proxy" ]]; then
+        echo "🔗 当前代理: $http_proxy"
+        curl -I -s https://www.google.com | head -n 1
+    else
+        echo "❌ 代理未设置"
+    fi
+}
 
 # ----
 # Misc
