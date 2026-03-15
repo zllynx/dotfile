@@ -168,10 +168,18 @@ alias glg="git log --oneline"
 export PROXY_PORT=${PROXY_PORT:-10808}
 export PROXY_TYPE=${PROXY_TYPE:-http}
 
-# 设置代理主机（WSL mirror 模式统一使用 127.0.0.1）
+# 设置代理主机（WSL NAT 模式动态获取 Windows IP）
 setup_proxy_host() {
     if [[ -z "$PROXY_HOST" ]]; then
-        export PROXY_HOST="127.0.0.1"
+        # 方式1：通过默认网关获取（更可靠）
+        local win_ip=$(ip route | grep default | awk '{print $3}')
+
+        # 方式2：从 /etc/resolv.conf 获取（备选）
+        if [[ -z "$win_ip" ]]; then
+            win_ip=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}')
+        fi
+
+        export PROXY_HOST="$win_ip"
     fi
 }
 
