@@ -168,18 +168,37 @@ alias glg="git log --oneline"
 export PROXY_PORT=${PROXY_PORT:-10808}
 export PROXY_TYPE=${PROXY_TYPE:-http}
 
-# 设置代理主机（WSL NAT 模式动态获取 Windows IP）
+# 设置代理主机
 setup_proxy_host() {
-    if [[ -z "$PROXY_HOST" ]]; then
+    local os_type=$(uname -s)
+
+    if [[ "$os_type" == "Darwin" ]]; then
+        # macOS 使用本地代理
+        export PROXY_HOST="127.0.0.1"
+    elif [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+        # WSL 环境，获取 Windows 主机 IP
+        local win_ip=""
+
         # 方式1：通过默认网关获取（更可靠）
-        local win_ip=$(ip route | grep default | awk '{print $3}')
+        if command -v ip >/dev/null 2>&1; then
+            win_ip=$(ip route 2>/dev/null | grep default | awk '{print $3}')
+        fi
 
         # 方式2：从 /etc/resolv.conf 获取（备选）
         if [[ -z "$win_ip" ]]; then
             win_ip=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}')
         fi
 
+        # 如果都失败了，使用默认值
+        if [[ -z "$win_ip" ]]; then
+            echo "⚠️  无法自动获取 WSL 主机 IP，使用默认值"
+            win_ip="127.0.0.1"
+        fi
+
         export PROXY_HOST="$win_ip"
+    else
+        # 普通 Linux 使用本地代理
+        export PROXY_HOST="127.0.0.1"
     fi
 }
 
