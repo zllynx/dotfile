@@ -31,7 +31,8 @@ font-thicken = false
 #theme = GitHub Dark Dimmed
 #theme = Adwaita Dark
 #theme = GitHub Dark High Contrast
-theme = Abernathy
+theme = Gruvbox Material
+#theme = Abernathy
 
 # ========== 光标设置 ==========
 # 光标样式：block（粗方块光标，类似 Tabby）
