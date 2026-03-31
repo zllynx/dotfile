@@ -111,6 +111,18 @@ fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
 
+# Fix: asciiship PS1 starts with \n, causing empty line before first prompt.
+# Remove it from PS1 and use precmd to add newline between prompts instead.
+PS1="${PS1#$'\n'}"
+_prompt_newline_added=0
+function _prompt_add_newline() {
+  if (( _prompt_newline_added )); then
+    print ''
+  fi
+  _prompt_newline_added=1
+}
+add-zsh-hook precmd _prompt_add_newline
+
 # ------------------------------
 # Post-init module configuration
 # ------------------------------
