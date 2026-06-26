@@ -1,0 +1,30 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+# 将提示符中的 '❯' 替换为 '➜'
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[↛](bold red)'
+
+[directory]
+truncate_to_repo=true
+truncation_length=2
+
+[line_break]
+disabled = false
+
+[nodejs]
+disabled = true
+
+[lua]
+disabled = true
+
+[cmake]
+disabled = true
+
+[status]
+disabled = false
+style = 'bold red'
+symbol = '✗'
+format = '[$symbol $status]($style) '
