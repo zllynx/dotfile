@@ -152,6 +152,8 @@ alias rm="rm -i"
 alias n="nvim"
 alias tn="tmux new-session -s"
 alias ta="tmux attach-session -t"
+alias rn="rmux new-session -s"
+alias ra="rmux attach-session -t"
 alias tf="tmuxifier"
 alias c="clear"
 alias lg="lazygit"
@@ -224,6 +226,7 @@ setproxy() {
     export http_proxy="$proxy_url"
     export https_proxy="$proxy_url"
     export all_proxy="$socks_url"
+    export ALL_PROXY="$socks_url"   # 大写兜底: Homebrew curl 清理 https_proxy 后走 SOCKS5, 避免大文件 HTTP CONNECT 中断
     export no_proxy="localhost,127.0.0.1,localaddress,.local"
 
     echo "✅ 代理已启动: $proxy_url"
@@ -235,6 +238,7 @@ unsetproxy() {
     unset http_proxy
     unset https_proxy
     unset all_proxy
+    unset ALL_PROXY
     unset no_proxy
     echo "❌ 代理已关闭"
 }
@@ -353,4 +357,19 @@ if ! command -v zoxide &> /dev/null; then
 	curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 fi
 eval "$(zoxide init zsh)"
- 
+
+
+eval "$(omp completions zsh)"
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+
+# >>> otty shell integration >>>
+# Added by Otty — toggle in Settings > Shell > Shell Integration.
+# Inert unless launched by Otty (it sets $OTTY_SHELL_INTEGRATION).
+if [ -n "$OTTY_SHELL_INTEGRATION" ] && [ -r "$OTTY_SHELL_INTEGRATION/otty-integration.zsh" ]; then
+  . "$OTTY_SHELL_INTEGRATION/otty-integration.zsh"
+fi
+# <<< otty shell integration <<<
+eval "$(starship init zsh)"
