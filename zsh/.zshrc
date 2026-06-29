@@ -269,6 +269,68 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# rp: realpath + copy to clipboard (cross-platform)
+# Usage: rp <file>... | rp (fzf picker) | rp <TAB> (fzf completion)
+_rp_clip() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    pbcopy
+  elif command -v wl-copy &>/dev/null; then
+    wl-copy
+  elif command -v xclip &>/dev/null; then
+    xclip -selection clipboard
+  elif command -v xsel &>/dev/null; then
+    xsel --clipboard --input
+  else
+    cat > /dev/null
+  fi
+}
+
+_rp_one() {
+  local resolved
+  resolved=$(realpath "$1" 2>/dev/null) || { echo "rp: $1: not found" >&2; return 1; }
+  echo "$resolved"
+  if echo -n "$resolved" | _rp_clip; then
+    echo "  → copied" >&2
+  fi
+}
+
+rp() {
+  if [[ $# -gt 0 ]]; then
+    for f in "$@"; do _rp_one "$f"; done
+  elif command -v fzf &>/dev/null; then
+    local files finder
+    if command -v fd &>/dev/null; then
+      finder="fd --type f --hidden --follow --exclude .git"
+    else
+      finder="find . -type f"
+    fi
+    files=$(eval "$finder" 2>/dev/null | fzf -m \
+      --preview 'bat --color=always --style=numbers {} 2>/dev/null || head -80 {}' < /dev/tty)
+    [[ -n "$files" ]] || return 1
+    local f
+    while IFS= read -r f; do _rp_one "$f"; done <<< "$files"
+  else
+    echo "Usage: rp <file>..." >&2
+    return 1
+  fi
+}
+
+# fzf tab-completion for rp
+if command -v fzf &>/dev/null && (( ${+functions[compdef]} )); then
+  _rp() {
+    local selected finder
+    if command -v fd &>/dev/null; then
+      finder="fd --type f --hidden --follow --exclude .git"
+    else
+      finder="find . -type f"
+    fi
+    selected=$(eval "$finder" 2>/dev/null | fzf -m \
+      --preview 'bat --color=always --style=numbers {} 2>/dev/null || head -80 {}' < /dev/tty)
+    [[ -n "$selected" ]] && compadd -- ${(f)selected}
+  }
+  compdef _rp rp
+fi
+
 # shell working directory reporting. 
 # https://github.com/Eugeny/tabby/wiki/Shell-working-directory-reporting
 precmd () { echo -n "\x1b]1337;CurrentDir=$(pwd)\x07" }
