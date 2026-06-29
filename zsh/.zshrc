@@ -349,21 +349,35 @@ export HF_ENDPOINT=https://hf-mirror.com
 if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
 	git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
 fi
-eval "$(tmuxifier init -)"
+if command -v tmuxifier &> /dev/null; then
+  eval "$(tmuxifier init -)"
+fi
 
 
 # init zoxide (directory autojump tool)
 if ! command -v zoxide &> /dev/null; then
 	curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 fi
-eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
 
-eval "$(omp completions zsh)"
+# init oh-my-posh (prompt)
+if ! command -v omp &> /dev/null; then
+  curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+fi
+if command -v omp &> /dev/null; then
+  eval "$(omp completions zsh)"
+fi
 
-. "$HOME/.atuin/bin/env"
+if [ -f "$HOME/.atuin/bin/env" ]; then
+  . "$HOME/.atuin/bin/env"
+fi
 
-eval "$(atuin init zsh)"
+if command -v atuin &> /dev/null; then
+  eval "$(atuin init zsh)"
+fi
 
 # >>> otty shell integration >>>
 # Added by Otty — toggle in Settings > Shell > Shell Integration.
@@ -372,4 +386,10 @@ if [ -n "$OTTY_SHELL_INTEGRATION" ] && [ -r "$OTTY_SHELL_INTEGRATION/otty-integr
   . "$OTTY_SHELL_INTEGRATION/otty-integration.zsh"
 fi
 # <<< otty shell integration <<<
-eval "$(starship init zsh)"
+# init starship (prompt)
+if ! command -v starship &> /dev/null; then
+  curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin -y
+fi
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
