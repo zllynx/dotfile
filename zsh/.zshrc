@@ -427,7 +427,7 @@ fi
 
 # init oh-my-posh (prompt)
 if ! command -v omp &> /dev/null; then
-  curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+  curl -fsSL https://omp.sh/install | sh
 fi
 if command -v omp &> /dev/null; then
   eval "$(omp completions zsh)"
