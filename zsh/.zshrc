@@ -229,6 +229,10 @@ setproxy() {
     export ALL_PROXY="$socks_url"   # 大写兜底: Homebrew curl 清理 https_proxy 后走 SOCKS5, 避免大文件 HTTP CONNECT 中断
     export no_proxy="localhost,127.0.0.1,localaddress,.local"
 
+    # git 也走代理，确保 brew update / omp update 等能连 GitHub
+    git config --global http.proxy "$proxy_url"
+    git config --global https.proxy "$proxy_url"
+
     echo "✅ 代理已启动: $proxy_url"
     echo "测试连接: curl -I https://www.google.com"
 }
@@ -240,6 +244,8 @@ unsetproxy() {
     unset all_proxy
     unset ALL_PROXY
     unset no_proxy
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
     echo "❌ 代理已关闭"
 }
 
