@@ -2,6 +2,7 @@
 
 add_newline = false
 command_timeout = 3000
+scan_timeout = 100
 
 # 将提示符中的 '❯' 替换为 '➜'
 [character]
