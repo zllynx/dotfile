@@ -418,7 +418,13 @@ if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
 	git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
 fi
 if command -v tmuxifier &> /dev/null; then
-  eval "$(tmuxifier init -)"
+  local _tmux_cache="$HOME/.cache/zsh/tmuxifier_init.zsh"
+  if [[ -f "$_tmux_cache" ]]; then
+    source "$_tmux_cache"
+  else
+    mkdir -p "$HOME/.cache/zsh"
+    tmuxifier init - > "$_tmux_cache" 2>/dev/null && source "$_tmux_cache"
+  fi
 fi
 
 
@@ -427,16 +433,28 @@ if ! command -v zoxide &> /dev/null; then
 	curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 fi
 if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
+  local _zox_cache="$HOME/.cache/zsh/zoxide_init.zsh"
+  if [[ -f "$_zox_cache" ]]; then
+    source "$_zox_cache"
+  else
+    mkdir -p "$HOME/.cache/zsh"
+    zoxide init zsh > "$_zox_cache" 2>/dev/null && source "$_zox_cache"
+  fi
 fi
 
 
-# init oh-my-posh (prompt)
+# init oh-my-pi (coding assistant)
 if ! command -v omp &> /dev/null; then
-  curl -fsSL https://omp.sh/install | sh
+  ALL_PROXY="socks5://127.0.0.1:${PROXY_PORT:-10808}" curl -fsSL https://omp.sh/install | sh
 fi
 if command -v omp &> /dev/null; then
-  eval "$(omp completions zsh)"
+  local _omp_cache="$HOME/.cache/omp_completions.zsh"
+  if [[ -f "$_omp_cache" ]]; then
+    source "$_omp_cache"
+  else
+    mkdir -p "$HOME/.cache"
+    omp completions zsh > "$_omp_cache" 2>/dev/null && source "$_omp_cache"
+  fi
 fi
 
 if [ -f "$HOME/.atuin/bin/env" ]; then
@@ -444,7 +462,13 @@ if [ -f "$HOME/.atuin/bin/env" ]; then
 fi
 
 if command -v atuin &> /dev/null; then
-  eval "$(atuin init zsh)"
+  local _atuin_cache="$HOME/.cache/zsh/atuin_init.zsh"
+  if [[ -f "$_atuin_cache" ]]; then
+    source "$_atuin_cache"
+  else
+    mkdir -p "$HOME/.cache/zsh"
+    atuin init zsh > "$_atuin_cache" 2>/dev/null && source "$_atuin_cache"
+  fi
 fi
 
 # >>> otty shell integration >>>
