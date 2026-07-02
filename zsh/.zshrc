@@ -417,13 +417,32 @@ export HF_ENDPOINT=https://hf-mirror.com
 if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
 	git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
 fi
+# ---------------------------------------------------------------------------
+# Shell init 缓存设计 (tmuxifier / zoxide / omp / atuin 共用此模式)
+#
+# 目的: 把 `xxx init/completions zsh` 的输出缓存到文件，开 shell 直接 source，
+#       仅当工具二进制变化时才重新生成，加速启动。
+#
+# 为什么不用 `[[ "$_cache" -nt "$_bin" ]]`?
+#   command -v <tool> 对 brew 安装的工具是符号链接(/opt/homebrew/bin/xxx)，
+#   而 zsh 的 -nt 会【跟随符号链接】, 比的是 Cellar 里真实二进制的 mtime。
+#   Homebrew 倒 bottle 时保留了【构建时】的 mtime(比缓存还旧), 导致 -nt 恒为真
+#   → 缓存永不重生 → 升级工具后补全仍是旧版。(实测 omp 16.2.13→16.3.0 即如此)
+#
+# 正确做法: 用 stat 取【符号链接本体】的 lstat mtime 做数值比较。
+#   - macOS `stat -f %m` 默认就是 lstat(不跟随); Linux 用 `stat -c %Y`。
+#   - brew upgrade 会 relink(删旧 symlink、建新 symlink) → symlink 本体 mtime 刷新 → 缓存失效 ✓
+#   - 脚本覆盖安装(原地覆盖二进制) → 文件 mtime 刷新 → 同样失效 ✓
+# ---------------------------------------------------------------------------
 if command -v tmuxifier &> /dev/null; then
   local _cache="$HOME/.cache/zsh/tmuxifier_init.zsh" _bin="$(command -v tmuxifier)"
-  if [[ -f "$_cache" ]] && [[ "$_cache" -nt "$_bin" ]]; then
+  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
+  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
     mkdir -p "$HOME/.cache/zsh"
-    tmuxifier init - > "$_cache" 2>/dev/null && source "$_cache"
+    tmuxifier init - >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
 
@@ -434,11 +453,13 @@ if ! command -v zoxide &> /dev/null; then
 fi
 if command -v zoxide &> /dev/null; then
   local _cache="$HOME/.cache/zsh/zoxide_init.zsh" _bin="$(command -v zoxide)"
-  if [[ -f "$_cache" ]] && [[ "$_cache" -nt "$_bin" ]]; then
+  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
+  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
     mkdir -p "$HOME/.cache/zsh"
-    zoxide init zsh > "$_cache" 2>/dev/null && source "$_cache"
+    zoxide init zsh >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
 
@@ -449,11 +470,13 @@ if ! command -v omp &> /dev/null; then
 fi
 if command -v omp &> /dev/null; then
   local _cache="$HOME/.cache/omp_completions.zsh" _bin="$(command -v omp)"
-  if [[ -f "$_cache" ]] && [[ "$_cache" -nt "$_bin" ]]; then
+  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
+  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
     mkdir -p "$HOME/.cache"
-    omp completions zsh > "$_cache" 2>/dev/null && source "$_cache"
+    omp completions zsh >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
 
@@ -463,11 +486,13 @@ fi
 
 if command -v atuin &> /dev/null; then
   local _cache="$HOME/.cache/zsh/atuin_init.zsh" _bin="$(command -v atuin)"
-  if [[ -f "$_cache" ]] && [[ "$_cache" -nt "$_bin" ]]; then
+  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
+  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
     mkdir -p "$HOME/.cache/zsh"
-    atuin init zsh > "$_cache" 2>/dev/null && source "$_cache"
+    atuin init zsh >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
 
