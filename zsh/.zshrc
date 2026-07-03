@@ -89,6 +89,94 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 #typeset -A ZSH_HIGHLIGHT_STYLES
 #ZSH_HIGHLIGHT_STYLES[comment]='fg=242'
 
+# -------------
+# proxy setting
+# -------------
+
+# 代理端口配置（可在 ~/.user_env.sh 中覆盖）
+export PROXY_PORT=${PROXY_PORT:-10808}
+export PROXY_TYPE=${PROXY_TYPE:-http}
+
+# 自动探测代理主机: macOS / 普通 Linux 用 127.0.0.1; WSL 取 Windows 宿主 IP
+setup_proxy_host() {
+    local os_type=$(uname -s)
+
+    if [[ "$os_type" == "Darwin" ]]; then
+        export PROXY_HOST="127.0.0.1"
+    elif [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+        # WSL: 优先用默认网关, 失败则退回 resolv.conf
+        local win_ip=""
+        command -v ip >/dev/null 2>&1 && win_ip=$(ip route 2>/dev/null | awk '/default/{print $3; exit}')
+        [[ -z "$win_ip" ]] && win_ip=$(grep -m1 nameserver /etc/resolv.conf 2>/dev/null | awk '{print $2}')
+        if [[ -z "$win_ip" ]]; then
+            echo "⚠️  无法自动获取 WSL 主机 IP，使用默认值 127.0.0.1" >&2
+            win_ip="127.0.0.1"
+        fi
+        export PROXY_HOST="$win_ip"
+    else
+        export PROXY_HOST="127.0.0.1"
+    fi
+}
+
+# 设置代理: 导出环境变量 + git 全局配置
+setproxy() {
+    setup_proxy_host
+
+    local proxy_url="$PROXY_TYPE://$PROXY_HOST:$PROXY_PORT"
+    local socks_url="socks5://$PROXY_HOST:$PROXY_PORT"
+
+    export http_proxy="$proxy_url"
+    export https_proxy="$proxy_url"
+    export all_proxy="$socks_url"
+    export ALL_PROXY="$socks_url"   # 大写兜底: Homebrew curl 清理 https_proxy 后走 SOCKS5, 避免大文件 HTTP CONNECT 中断
+    export no_proxy="localhost,127.0.0.1,localaddress,.local"
+
+    # git 也走代理，确保 brew update / omp update 等能连 GitHub
+    git config --global http.proxy "$proxy_url"
+    git config --global https.proxy "$proxy_url"
+
+    echo "✅ 代理已启动: $proxy_url"
+}
+
+# 取消代理
+unsetproxy() {
+    unset http_proxy https_proxy all_proxy ALL_PROXY no_proxy
+    git config --global --unset http.proxy 2>/dev/null
+    git config --global --unset https.proxy 2>/dev/null
+    echo "❌ 代理已关闭"
+}
+
+# 测试配置的代理是否可用 (直接探测 PROXY_HOST:PROXY_PORT, 不依赖已设置的 env)
+# 交互直接调用看输出; 脚本中用返回值判断 (0 = 可用)
+testproxy() {
+    setup_proxy_host
+    local proxy_url="$PROXY_TYPE://$PROXY_HOST:$PROXY_PORT"
+    if curl -x "$proxy_url" -sI -m 5 --connect-timeout 3 https://www.google.com >/dev/null 2>&1; then
+        echo "✅ 代理可用: $proxy_url"
+        return 0
+    else
+        echo "❌ 代理不可用: $proxy_url"
+        return 1
+    fi
+}
+
+# 包裹一条命令: 代理可用则临时 setproxy, 执行完自动 unsetproxy (仅关闭本函数开启的代理)
+# 对 `curl ... | sh` 这类管道下载, 用 `with_proxy sh -c '...'` 包裹整条命令,
+# 否则管道右侧命令在子 shell 中拿不到代理环境变量.
+# Usage: with_proxy <command> [args...]
+with_proxy() {
+    (( $# )) || { echo "with_proxy: 缺少命令" >&2; return 1; }
+    local _enabled=0
+    if testproxy >/dev/null 2>&1; then
+        setproxy >/dev/null 2>&1
+        _enabled=1
+    fi
+    "$@"
+    local _rc=$?
+    ((_enabled)) && unsetproxy >/dev/null 2>&1
+    return $_rc
+}
+
 # ------------------
 # Initialize modules
 # ------------------
@@ -97,10 +185,10 @@ ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
 # Download zimfw plugin manager if missing.
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
   if (( ${+commands[curl]} )); then
-    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+    with_proxy curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   else
-    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+    mkdir -p ${ZIM_HOME} && with_proxy wget -nv -O ${ZIM_HOME}/zimfw.zsh \
         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   fi
 fi
@@ -173,91 +261,6 @@ alias gc="git checkout"
 alias gb="git branch"
 alias gl="git log"
 alias glg="git log --oneline"
-
-# -------------
-# proxy setting
-# -------------
-
-# 代理端口配置（可在 .user_env.sh 中覆盖）
-export PROXY_PORT=${PROXY_PORT:-10808}
-export PROXY_TYPE=${PROXY_TYPE:-http}
-
-# 设置代理主机
-setup_proxy_host() {
-    local os_type=$(uname -s)
-
-    if [[ "$os_type" == "Darwin" ]]; then
-        # macOS 使用本地代理
-        export PROXY_HOST="127.0.0.1"
-    elif [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
-        # WSL 环境，获取 Windows 主机 IP
-        local win_ip=""
-
-        # 方式1：通过默认网关获取（更可靠）
-        if command -v ip >/dev/null 2>&1; then
-            win_ip=$(ip route 2>/dev/null | grep default | awk '{print $3}')
-        fi
-
-        # 方式2：从 /etc/resolv.conf 获取（备选）
-        if [[ -z "$win_ip" ]]; then
-            win_ip=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}')
-        fi
-
-        # 如果都失败了，使用默认值
-        if [[ -z "$win_ip" ]]; then
-            echo "⚠️  无法自动获取 WSL 主机 IP，使用默认值"
-            win_ip="127.0.0.1"
-        fi
-
-        export PROXY_HOST="$win_ip"
-    else
-        # 普通 Linux 使用本地代理
-        export PROXY_HOST="127.0.0.1"
-    fi
-}
-
-# 设置代理
-setproxy() {
-    setup_proxy_host
-
-    local proxy_url="$PROXY_TYPE://$PROXY_HOST:$PROXY_PORT"
-    local socks_url="socks5://$PROXY_HOST:$PROXY_PORT"
-
-    export http_proxy="$proxy_url"
-    export https_proxy="$proxy_url"
-    export all_proxy="$socks_url"
-    export ALL_PROXY="$socks_url"   # 大写兜底: Homebrew curl 清理 https_proxy 后走 SOCKS5, 避免大文件 HTTP CONNECT 中断
-    export no_proxy="localhost,127.0.0.1,localaddress,.local"
-
-    # git 也走代理，确保 brew update / omp update 等能连 GitHub
-    git config --global http.proxy "$proxy_url"
-    git config --global https.proxy "$proxy_url"
-
-    echo "✅ 代理已启动: $proxy_url"
-    echo "测试连接: curl -I https://www.google.com"
-}
-
-# 取消代理
-unsetproxy() {
-    unset http_proxy
-    unset https_proxy
-    unset all_proxy
-    unset ALL_PROXY
-    unset no_proxy
-    git config --global --unset http.proxy
-    git config --global --unset https.proxy
-    echo "❌ 代理已关闭"
-}
-
-# 测试代理
-testproxy() {
-    if [[ -n "$http_proxy" ]]; then
-        echo "🔗 当前代理: $http_proxy"
-        curl -I -s https://www.google.com | head -n 1
-    else
-        echo "❌ 代理未设置"
-    fi
-}
 
 # ----
 # Misc
@@ -415,7 +418,7 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 # auto-install tmuxifier if not exists
 if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
-	git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
+	with_proxy git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
 fi
 # ---------------------------------------------------------------------------
 # Shell init 缓存设计 (tmuxifier / zoxide / omp / atuin 共用此模式)
@@ -449,7 +452,7 @@ fi
 
 # init zoxide (directory autojump tool)
 if ! command -v zoxide &> /dev/null; then
-	curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+	with_proxy sh -c 'curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh'
 fi
 if command -v zoxide &> /dev/null; then
   local _cache="$HOME/.cache/zsh/zoxide_init.zsh" _bin="$(command -v zoxide)"
@@ -466,7 +469,7 @@ fi
 
 # init oh-my-pi (coding assistant)
 if ! command -v omp &> /dev/null; then
-  ALL_PROXY="socks5://127.0.0.1:${PROXY_PORT:-10808}" curl -fsSL https://omp.sh/install | sh
+  with_proxy sh -c 'curl -fsSL https://omp.sh/install | sh'
 fi
 if command -v omp &> /dev/null; then
   local _cache="$HOME/.cache/omp_completions.zsh" _bin="$(command -v omp)"
@@ -505,7 +508,7 @@ fi
 # <<< otty shell integration <<<
 # init starship (prompt)
 if ! command -v starship &> /dev/null; then
-  curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin -y
+  with_proxy sh -c 'curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin -y'
 fi
 if command -v starship &> /dev/null; then
   eval "$(starship init zsh)"
