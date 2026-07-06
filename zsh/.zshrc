@@ -421,7 +421,7 @@ if [ ! -d "$HOME/.tmux/plugins/tmuxifier" ]; then
 	with_proxy git clone https://github.com/jimeh/tmuxifier.git ~/.tmux/plugins/tmuxifier
 fi
 # ---------------------------------------------------------------------------
-# Shell init 缓存设计 (tmuxifier / zoxide / omp / atuin 共用此模式)
+# Shell init 缓存设计 (tmuxifier / zoxide / omp 共用此模式)
 #
 # 目的: 把 `xxx init/completions zsh` 的输出缓存到文件，开 shell 直接 source，
 #       仅当工具二进制变化时才重新生成，加速启动。
@@ -480,22 +480,6 @@ if command -v omp &> /dev/null; then
   else
     mkdir -p "$HOME/.cache"
     omp completions zsh >| "$_cache" 2>/dev/null && source "$_cache"
-  fi
-fi
-
-if [ -f "$HOME/.atuin/bin/env" ]; then
-  . "$HOME/.atuin/bin/env"
-fi
-
-if command -v atuin &> /dev/null; then
-  local _cache="$HOME/.cache/zsh/atuin_init.zsh" _bin="$(command -v atuin)"
-  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
-  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
-  if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
-    source "$_cache"
-  else
-    mkdir -p "$HOME/.cache/zsh"
-    atuin init zsh >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
 
