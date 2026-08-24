@@ -13,3 +13,6 @@ nvim/.config/nvim/lazyvim.json
 .dolt/
 *.db
 .beads-credential-key
+
+# Karabiner auto backups
+karabiner/.config/karabiner/automatic_backups/
