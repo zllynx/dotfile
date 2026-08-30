@@ -508,3 +508,7 @@ fi
 if command -v starship &> /dev/null; then
   eval "$(starship init zsh)"
 fi
+
+# 通知: bell=终端铃声(BEL), toast=Windows 系统弹窗 (脚本在 ~/.local/bin/omp-done)
+alias bell="printf '\\a'"
+alias toast="$HOME/.local/bin/omp-done"
