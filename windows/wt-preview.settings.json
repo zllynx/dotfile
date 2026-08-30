@@ -1,0 +1,239 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema-preview",
+    "actions": [
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        }
+    ],
+    "alwaysShowNotificationIcon": false,
+    "compatibility.allowHeadless": true,
+    "copyFormatting": "none",
+    "copyOnSelect": true,
+    "defaultProfile": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+    "keybindings": [
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "newTabMenu": [
+        {
+            "type": "remainingProfiles"
+        },
+        {
+            "allowEmpty": false,
+            "entries": [
+                {
+                    "commandline": null,
+                    "name": null,
+                    "source": "Windows.Terminal.SSH",
+                    "type": "matchProfiles"
+                }
+            ],
+            "icon": "",
+            "inline": "auto",
+            "name": "SSH",
+            "type": "folder"
+        }
+    ],
+    "profiles": {
+        "defaults": {
+            "colorScheme": "Gruvbox Dark",
+            "cursorShape": "filledBox",
+            "font": {
+                "face": "Maple Mono NF CN",
+                "features": {},
+                "weight": "normal"
+            },
+            "opacity": 81,
+            "useAcrylic": true
+        },
+        "list": [
+            {
+                "bellStyle": "taskbar",
+                "colorScheme": "Gruvbox Dark",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "font": {
+                    "weight": "normal"
+                },
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "adjustIndistinguishableColors": "indexed",
+                "bellStyle": "taskbar",
+                "colorScheme": "Gruvbox Dark",
+                "commandline": "C:\\WINDOWS\\system32\\wsl.exe -d Arch -u zllynx",
+                "cursorShape": "filledBox",
+                "experimental.rainbowSuggestions": true,
+                "experimental.retroTerminalEffect": false,
+                "font": {
+                    "weight": "normal"
+                },
+                "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+                "hidden": false,
+                "historySize": 20000,
+                "icon": "C:\\Users\\zhenli\\Pictures\\Icons\\arch.png",
+                "name": "Arch",
+                "padding": "0",
+                "source": "Windows.Terminal.Wsl",
+                "tabColor": "#98971A"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "background": "#1E1E1E",
+            "black": "#1A1A1A",
+            "blue": "#0869CB",
+            "brightBlack": "#464646",
+            "brightBlue": "#0A84FF",
+            "brightCyan": "#76D6FF",
+            "brightGreen": "#32D74B",
+            "brightPurple": "#BF5AF2",
+            "brightRed": "#FF453A",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FFD60A",
+            "cursorColor": "#98989D",
+            "cyan": "#479EC2",
+            "foreground": "#FFFFFF",
+            "green": "#26A439",
+            "name": "Apple System Colors",
+            "purple": "#9647BF",
+            "red": "#CC372E",
+            "selectionBackground": "#3F638B",
+            "white": "#98989D",
+            "yellow": "#CDAC08"
+        },
+        {
+            "background": "#24273A",
+            "black": "#494D64",
+            "blue": "#8AADF4",
+            "brightBlack": "#5B6078",
+            "brightBlue": "#8AADF4",
+            "brightCyan": "#8BD5CA",
+            "brightGreen": "#A6DA95",
+            "brightPurple": "#F5BDE6",
+            "brightRed": "#ED8796",
+            "brightWhite": "#B8C0E0",
+            "brightYellow": "#EED49F",
+            "cursorColor": "#F4DBD6",
+            "cyan": "#8BD5CA",
+            "foreground": "#CAD3F5",
+            "green": "#A6DA95",
+            "name": "Catppuccin Macchiato",
+            "purple": "#F5BDE6",
+            "red": "#ED8796",
+            "selectionBackground": "#5B6078",
+            "white": "#B8C0E0",
+            "yellow": "#EED49F"
+        },
+        {
+            "background": "#282828",
+            "black": "#282828",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "Gruvbox Dark",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#FFFFFF",
+            "white": "#A89984",
+            "yellow": "#D79921"
+        },
+        {
+            "background": "#1C1C1C",
+            "black": "#080808",
+            "blue": "#5FAFD7",
+            "brightBlack": "#8A8A8A",
+            "brightBlue": "#87AFD7",
+            "brightCyan": "#87D7D7",
+            "brightGreen": "#AFD7AF",
+            "brightPurple": "#AFAFD7",
+            "brightRed": "#D75F5F",
+            "brightWhite": "#DADADA",
+            "brightYellow": "#D7D7AF",
+            "cursorColor": "#EEEEEE",
+            "cyan": "#5FD7D7",
+            "foreground": "#D0D0D0",
+            "green": "#87D7AF",
+            "name": "Guezwhoz",
+            "purple": "#AFAFFF",
+            "red": "#FF5F5F",
+            "selectionBackground": "#005F5F",
+            "white": "#DADADA",
+            "yellow": "#D7D787"
+        },
+        {
+            "background": "#282C35",
+            "black": "#7F7F7F",
+            "blue": "#6699CC",
+            "brightBlack": "#7F7F7F",
+            "brightBlue": "#6699CC",
+            "brightCyan": "#5FB3B3",
+            "brightGreen": "#A9CFA4",
+            "brightPurple": "#F1A5AB",
+            "brightRed": "#E15A60",
+            "brightWhite": "#D4D4D4",
+            "brightYellow": "#FFE2A9",
+            "cursorColor": "#C7C7C7",
+            "cyan": "#5FB3B3",
+            "foreground": "#D4D4D4",
+            "green": "#A9CFA4",
+            "name": "Subliminal",
+            "purple": "#F1A5AB",
+            "red": "#E15A60",
+            "selectionBackground": "#484E5B",
+            "white": "#D4D4D4",
+            "yellow": "#FFE2A9"
+        }
+    ],
+    "theme": "dark",
+    "themes": [],
+    "useAcrylicInTabRow": true,
+    "warning.confirmCloseAllTabs": false
+}
