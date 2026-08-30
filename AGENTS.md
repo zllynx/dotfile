@@ -94,3 +94,7 @@ bd close <id>         # Complete work
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
 <!-- END BEADS INTEGRATION -->
+
+## 收工通知 (仅 WSL)
+
+- 完成工作后运行 `~/.local/bin/omp-done`（BEL 铃声 + Windows toast 弹窗）。仅 WSL 用，macOS 无此脚本、不要调用。
