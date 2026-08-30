@@ -32,3 +32,7 @@
 	file-style = omit
 	file-decoration-style = omit
 	hunk-header-style = file line-number syntax
+
+# 机器本地配置 (代理等), 不入库。文件不存在时忽略。
+[include]
+	path = ~/.gitconfig.local
