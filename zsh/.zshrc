@@ -313,39 +313,35 @@ _rp_one() {
   fi
 }
 
-rp() {
-  if [[ $# -gt 0 ]]; then
-    for f in "$@"; do _rp_one "$f"; done
-  elif command -v fzf &>/dev/null; then
-    local files finder
-    if command -v fd &>/dev/null; then
-      finder="fd --type f --hidden --follow --exclude .git"
-    else
-      finder="find . -type f"
-    fi
-    files=$(eval "$finder" 2>/dev/null | fzf -m \
-      --preview 'bat --color=always --style=numbers {} 2>/dev/null || head -80 {}' < /dev/tty)
-    [[ -n "$files" ]] || return 1
-    local f
-    while IFS= read -r f; do _rp_one "$f"; done <<< "$files"
+# rp 共用的文件列表: 只搜当前目录第一层(不递归), 含隐藏文件(否则搜不到 .env 这类配置).
+_rp_finder() {
+  if command -v fd &>/dev/null; then
+    fd --type f --hidden --max-depth 1
   else
-    echo "Usage: rp <file>..." >&2
-    return 1
+    find . -maxdepth 1 -type f
   fi
 }
 
-# fzf tab-completion for rp
-if command -v fzf &>/dev/null && (( ${+functions[compdef]} )); then
-  _rp() {
-    local selected finder
-    if command -v fd &>/dev/null; then
-      finder="fd --type f --hidden --follow --exclude .git"
-    else
-      finder="find . -type f"
-    fi
-    selected=$(eval "$finder" 2>/dev/null | fzf -m \
+rp() {
+  if [[ $# -gt 0 ]]; then
+    local f
+    for f in "$@"; do _rp_one "$f"; done
+  else
+    local files
+    files=$(_rp_finder 2>/dev/null | fzf -m \
       --preview 'bat --color=always --style=numbers {} 2>/dev/null || head -80 {}' < /dev/tty)
-    [[ -n "$selected" ]] && compadd -- ${(f)selected}
+    [[ -n "$files" ]] || return 1
+    while IFS= read -r f; do _rp_one "$f"; done <<< "$files"
+  fi
+}
+
+# rp 补全: 原生 zsh 菜单(和 rm/cd 一致). 不要在补全里嵌套 fzf ——
+# 它和 ZLE 抢终端, 会卡死且 ESC 退不出; fzf 体验用裸 `rp` 选择器就有.
+if (( ${+functions[compdef]} )); then
+  _rp() {
+    local -a files
+    files=(${(f)"$(_rp_finder 2>/dev/null)"})
+    (( ${#files} )) && compadd -- $files
   }
   compdef _rp rp
 fi
@@ -371,8 +367,10 @@ if [ -e ~/local/bin/bat ];then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'" # man with bat
 fi
 
-# 加载 fzf 设置
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse '
+# 加载 fzf 设置.
+# 裸 fzf/fzfp 无输入时走内置 walker, 默认 hidden+follow 在家目录会扫 12w+ 文件卡死.
+# 限制为可见文件, 并跳过依赖/构建目录.
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --walker file --walker-skip .git,node_modules,target,dist,build,__pycache__'
 alias fzfp='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 
 # 关闭 homebrew 自动更新
@@ -383,7 +381,6 @@ export EDITOR=nvim
 
 # 加载本机个人设置
 [ -f ~/.user_env.sh ] && source ~/.user_env.sh 
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Not display the timestap when CtrlR search the history
