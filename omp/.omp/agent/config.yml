@@ -1,0 +1,8 @@
+theme:
+  dark: titanium
+setupVersion: 2
+modelRoles:
+  default: zai/glm-5.3-flash
+composer:
+  shape: band
+defaultThinkingLevel: auto
