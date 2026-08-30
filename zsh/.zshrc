@@ -176,6 +176,16 @@ with_proxy() {
     ((_enabled)) && unsetproxy >/dev/null 2>&1
     return $_rc
 }
+# 跨平台取文件 mtime(秒, lstat 不跟随软链)。
+# macOS/BSD 与 Linux/GNU 的 stat 格式不同, 在此按平台一次性选定函数。
+# ⚠️ 不要用 `stat -f %m X 2>/dev/null || stat -c %Y X` 兼容两端:
+#    GNU stat 把 `-f` 解释成"显示文件系统状态"模式, 失败时仍会把文件系统信息打到 stdout,
+#    污染命令替换结果 → 触发 `bad math expression: operand expected`(WSL 实测)。
+# 文件不存在或 stat 失败时输出空串, 调用方用 [[ -n $v ]] 判断。
+case "$(uname)" in
+  Darwin) _stat_mtime() { stat -f %m "$1" 2>/dev/null; } ;;
+  *)      _stat_mtime() { stat -c %Y "$1" 2>/dev/null; } ;;
+esac
 
 # ------------------
 # Initialize modules
@@ -439,8 +449,8 @@ fi
 # ---------------------------------------------------------------------------
 if command -v tmuxifier &> /dev/null; then
   local _cache="$HOME/.cache/zsh/tmuxifier_init.zsh" _bin="$(command -v tmuxifier)"
-  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
-  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  local _bin_mtime=$(_stat_mtime "$_bin")
+  local _cache_mtime=$(_stat_mtime "$_cache")
   if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
@@ -456,8 +466,8 @@ if ! command -v zoxide &> /dev/null; then
 fi
 if command -v zoxide &> /dev/null; then
   local _cache="$HOME/.cache/zsh/zoxide_init.zsh" _bin="$(command -v zoxide)"
-  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
-  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  local _bin_mtime=$(_stat_mtime "$_bin")
+  local _cache_mtime=$(_stat_mtime "$_cache")
   if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
@@ -473,8 +483,8 @@ if ! command -v omp &> /dev/null; then
 fi
 if command -v omp &> /dev/null; then
   local _cache="$HOME/.cache/omp_completions.zsh" _bin="$(command -v omp)"
-  local _bin_mtime=$(stat -f %m "$_bin" 2>/dev/null || stat -c %Y "$_bin" 2>/dev/null)
-  local _cache_mtime=$(stat -f %m "$_cache" 2>/dev/null || stat -c %Y "$_cache" 2>/dev/null)
+  local _bin_mtime=$(_stat_mtime "$_bin")
+  local _cache_mtime=$(_stat_mtime "$_cache")
   if [[ -n "$_bin_mtime" && -n "$_cache_mtime" && "$_cache_mtime" -gt "$_bin_mtime" ]]; then
     source "$_cache"
   else
@@ -482,6 +492,7 @@ if command -v omp &> /dev/null; then
     omp completions zsh >| "$_cache" 2>/dev/null && source "$_cache"
   fi
 fi
+
 
 # >>> otty shell integration >>>
 # Added by Otty — toggle in Settings > Shell > Shell Integration.
