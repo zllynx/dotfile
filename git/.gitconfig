@@ -36,3 +36,13 @@
 # 机器本地配置 (代理等), 不入库。文件不存在时忽略。
 [include]
 	path = ~/.gitconfig.local
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[http]
+	proxy = http://172.23.176.1:10808
+[https]
+	proxy = http://172.23.176.1:10808

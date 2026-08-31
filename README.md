@@ -6,14 +6,24 @@
 
 ```
 dotfile/
-├── git/           # Git 配置
-├── nvim/          # Neovim 配置
-├── tmux/          # Tmux 配置
-├── zsh/           # Zsh 配置
-├── ghostty/       # Ghostty 终端配置
-├── aerospace/     # Aerospace 窗口管理器配置
-├── ranger/        # Ranger 文件管理器配置
-└── zellij/        # Zellij 终端复用器配置
+├── git/               # Git 配置
+├── nvim/              # Neovim 配置
+├── tmux/              # Tmux 配置
+├── zsh/               # Zsh 配置
+├── ghostty/           # Ghostty 终端配置
+├── wezterm/           # WezTerm 终端配置
+├── aerospace/         # Aerospace 窗口管理器配置
+├── ranger/            # Ranger 文件管理器配置
+├── zellij/            # Zellij 终端复用器配置
+├── starship/          # Starship 提示符配置
+├── karabiner/         # Karabiner (macOS) 键盘改键
+├── windows/           # Windows 侧配置 (Windows Terminal)
+├── omp/               # omp 数据目录
+├── agents/            # Agent 记忆与 skills 本体 (git 子模块)
+├── agents-skills/     # stow 包: 各工具 skills 目录软链
+├── agents-memory/     # stow 包: ~/.agents 与 ~/.claude/CLAUDE.md 软链
+├── AGENTS.md          # dotfile 仓库级 agent 说明
+└── CLAUDE.md          # dotfile 仓库级 Claude 说明
 ```
 
 ## 安装
@@ -38,6 +48,7 @@ sudo pacman -S stow
 ```bash
 git clone git@github.com:zllynx/dotfile.git ~/dotfile
 cd ~/dotfile
+git submodule update --init   # 拉取 agents 记忆子模块
 ```
 
 2. Stow 所有模块：
@@ -106,6 +117,27 @@ for dir in */; do stow -D "${dir%/}"; done
 - 使用 Zi (zimfw) 框架
 - 包含个人别名和函数
 
+## Agent 配置管理
+
+Agent 的全局记忆与 skills 由 `agents` 子模块（[zllynx/agents](https://github.com/zllynx/agents)）统一管理，通过两个 stow 包部署：
+
+| stow 包 | 部署内容 |
+|---|---|
+| `agents-memory` | `~/.agents` → 记忆本体仓库；`~/.claude/CLAUDE.md` → `agents/AGENTS.md` |
+| `agents-skills` | `~/.claude/skills`、`~/.omp/skills` → `agents/skills` |
+
+```bash
+stow agents-memory agents-skills
+```
+
+规范：
+
+- 全局记忆本体是 `agents/AGENTS.md`（即 `~/.agents/AGENTS.md`）；工具目录只放软链，不建副本。
+- Skill 本体统一放 `~/.agents/skills/<name>/`，工具目录只放软链；工具 skills 目录下出现实体目录即为违规，应收编回本体。
+- 项目级记忆统一用项目根目录的 `AGENTS.md`，不建 CLAUDE.md 等副本。
+- 修改记忆或 skill 后：`git -C ~/.agents add -A && git commit && git push`，然后回 dotfile 仓库 bump 子模块指针并推送。
+- 严禁把 AK/密码/token 写进记忆或 skill。
+
 ## 常见问题
 
 ### Q: Stow 提示冲突怎么办？
@@ -123,6 +155,14 @@ A: 只 stow 你需要的模块：
 # 只在服务器上使用 tmux 和 nvim
 stow tmux
 stow nvim
+```
+
+### Q: stow agents-memory 后 ~/.agents 是空的？
+
+A: `agents` 是 git 子模块，先初始化再 stow：
+```bash
+git submodule update --init
+stow agents-memory
 ```
 
 ## License

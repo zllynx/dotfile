@@ -6,3 +6,5 @@ modelRoles:
 composer:
   shape: band
 defaultThinkingLevel: auto
+dev:
+  autoqaConsent: denied
