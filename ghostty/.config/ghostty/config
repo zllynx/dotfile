@@ -31,7 +31,7 @@ cursor-style-blink = true
 
 # ========== 其他优化 ==========
 # 背景略微透明（可选，1.0 为完全不透明）
-background-opacity = 0.9
+background-opacity = 1.0
 # 滚动缓冲区大小（单位：字节）
 # 适合 Claude Code 等长对话应用
 scrollback-limit = 200000000
