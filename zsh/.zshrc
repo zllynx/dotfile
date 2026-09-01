@@ -229,6 +229,9 @@ add-zsh-hook precmd _prompt_add_newline
 #  https://github.com/Aloxaf/fzf-tab/issues/391
 zstyle ':fzf-tab:*' fzf-bindings-default 'tab:down,btab:up,change:top,ctrl-space:toggle,bspace:backward-delete-char,ctrl-h:backward-delete-char'
 
+# pinyin support for fzf-tab: 所有补全支持拼音搜索中文
+zstyle ':fzf-tab:*' fzf-command pinyin-fzf
+
 #
 # zsh-history-substring-search
 #
