@@ -1,0 +1,26 @@
+#!/bin/sh
+# 收工通知: 自动识别平台 (macOS / WSL / Windows Git Bash / 其他 Linux)
+# 用法: omp-done "任务描述"
+msg=${1:-任务完成}
+
+case "$(uname -s)" in
+Darwin)
+  esc=$(printf '%s' "$msg" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  exec osascript -e "display notification \"$esc\" with title \"omp\" sound name \"default\""
+  ;;
+*)
+  printf '\a'  # BEL 终端铃声
+  # powershell.exe 在 PATH = WSL 或 Windows (Git Bash/MSYS)；纯 Linux 无此项，只响铃
+  if command -v powershell.exe >/dev/null 2>&1; then
+    esc=$(printf '%s' "$msg" | sed "s/'/''/g")
+    powershell.exe -NoProfile -Command "
+      Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+      \$n = New-Object System.Windows.Forms.NotifyIcon
+      \$n.Icon = [System.Drawing.SystemIcons]::Information
+      \$n.Visible = \$true
+      \$n.ShowBalloonTip(5000, 'omp', '$esc', [System.Windows.Forms.ToolTipIcon]::Info)
+      Start-Sleep -Seconds 6
+      \$n.Dispose()" &
+  fi
+  ;;
+esac
