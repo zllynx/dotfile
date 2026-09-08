@@ -4,7 +4,7 @@ onboarding = false
 
 [theme]
 # .tmux_local.conf: 手写 Nord truecolor 状态栏配色 → 内置 nord 主题
-name = "gruvbox"
+name = "dracula"
 
 auto_switch = false
 [terminal]
@@ -21,16 +21,9 @@ show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 [keys]
 # set -g prefix C-s (act like GNU screen)
+prefix = "ctrl+s"
 # bind | split-window -h (左右分屏)
 split_vertical = "prefix+|"
-# tmux prefix+s choose-tree 习惯 → goto 选择器 (过滤键 a/w/t 等可分类列出)
-goto = "prefix+s"
-# herdr 默认 prefix+s = settings, 让位后挪到 shift 位
-settings = "prefix+shift+s"
-# bind - split-window -v (上下分屏) = 默认值 prefix+minus, 无需覆盖
-# bind h/j/k/l select-pane = 默认值 prefix+h/j/k/l, 无需覆盖
-# bind c new-window -c "#{pane_current_path}" = 默认 new_cwd = "follow"
-# bind x kill-pane = 默认值 close_pane prefix+x
 # bind ' last-pane
 last_pane = "prefix+'"
 # bind < / > swap-window -d -t ±1 → 前移/后移 tab
@@ -40,23 +33,25 @@ move_tab_next = "prefix+>"
 close_tab = "prefix+shift+q"
 # bind . select-pane -T (重命名 pane 标题)
 rename_pane = "prefix+."
-# bind -r J/K/H/L resize-pane ±5 (herdr 无步长设置, 每按一次一格;
-# 会覆盖默认的 prefix+shift+h/j/k/l swap-pane)
+# bind -r J/K/H/L resize-pane ±5
 resize_pane_left = "prefix+shift+h"
 resize_pane_down = "prefix+shift+j"
 resize_pane_up = "prefix+shift+k"
 resize_pane_right = "prefix+shift+l"
-# bind C-r source-file ~/.tmux.conf (bind r 让给了 resize mode)
+# bind C-r source-file
 reload_config = "prefix+ctrl+r"
-# tmux 默认 prefix d detach; 保留 herdr 默认 prefix+q
 detach = ["prefix+d", "prefix+q"]
-# prefix+w navigate 选择模式: workspace 行用 j/k, pane 方向默认已是 h/j/k/l
-# (navigate_* 仅接受普通键, 禁止 prefix+/esc/enter/tab/数字)
-navigate_workspace_up = "k"
-navigate_workspace_down = "j"
 
 [ui.toast]
 # 桌面通知已全量中文接管: 完成=omp-done, blocked=omp-herdr-watch (launchd)。
 # herdr 桌面横幅(英文, osa/OSC)退到应用内 toast, 声音照常。
 # 回滚: 改回 "terminal" 即恢复 Ghostty 图标英文横幅。
 delivery = "herdr"
+
+[ui.sidebar.agents]
+# L1: 状态图标(自带状态色) + tab 号(弱化); L2: 会话主题占满行宽, 超宽在 sidebar 边缘硬裁切
+# token 可用 { fg, bold, dim, rules = [{ contains/equals/gt/lt, ... }] } 按值改样式
+rows = [
+  ["state_icon", { token = "tab", dim = true }],
+  [{ token = "terminal_title_stripped", bold = true, dim = false, fg = "#ebdbb2" }],
+]
