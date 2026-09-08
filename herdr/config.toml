@@ -53,6 +53,7 @@ navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 
 [ui.toast]
-# terminal: OSC 9/99 → Ghostty.app 发通知(带 Ghostty 图标);
-# system 档回退 osascript 归属脚本编辑器、无图标,仅在 terminal-notifier 存在时有激活收益
-delivery = "terminal"
+# 桌面通知已全量中文接管: 完成=omp-done, blocked=omp-herdr-watch (launchd)。
+# herdr 桌面横幅(英文, osa/OSC)退到应用内 toast, 声音照常。
+# 回滚: 改回 "terminal" 即恢复 Ghostty 图标英文横幅。
+delivery = "herdr"
