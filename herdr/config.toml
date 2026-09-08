@@ -1,0 +1,45 @@
+# Migrated from tmux (dotfile/tmux/.tmux.conf + .tmux_local.conf), 2026-09-08
+# Full reference: herdr --default-config ; validate: herdr config check
+onboarding = false
+
+[theme]
+# .tmux_local.conf: 手写 Nord truecolor 状态栏配色 → 内置 nord 主题
+name = "nord"
+
+[terminal]
+# set-option -g default-shell /bin/zsh
+default_shell = "/bin/zsh"
+
+[ui]
+# set-option -g status-position bottom
+tab_bar_position = "bottom"
+# pane-border-status top + pane-border-format " #P #T " 的最接近替代:
+# 在分屏边框显示检测到的 agent 标签 (不支持自定义 pane 标题格式)
+show_agent_labels_on_pane_borders = true
+
+[keys]
+# set -g prefix C-s (act like GNU screen)
+prefix = "ctrl+s"
+# bind | split-window -h (左右分屏)
+split_vertical = "prefix+|"
+# bind - split-window -v (上下分屏) = 默认值 prefix+minus, 无需覆盖
+# bind h/j/k/l select-pane = 默认值 prefix+h/j/k/l, 无需覆盖
+# bind c new-window -c "#{pane_current_path}" = 默认 new_cwd = "follow"
+# bind x kill-pane = 默认值 close_pane prefix+x
+# bind ' last-pane
+last_pane = "prefix+'"
+# bind < / > swap-window -d -t ±1 → 前移/后移 tab
+move_tab_previous = "prefix+<"
+move_tab_next = "prefix+>"
+# bind Q confirm kill-window → 关闭 tab (覆盖默认 prefix+shift+x)
+close_tab = "prefix+shift+q"
+# bind . select-pane -T (重命名 pane 标题)
+rename_pane = "prefix+."
+# bind -r J/K/H/L resize-pane ±5 (herdr 无步长设置, 每按一次一格;
+# 会覆盖默认的 prefix+shift+h/j/k/l swap-pane)
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+# bind C-r source-file ~/.tmux.conf (bind r 让给了 resize mode)
+reload_config = "prefix+ctrl+r"
