@@ -1,0 +1,10 @@
+id = "zl.omp-notify"
+name = "omp 通知"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "agent blocked(需要输入)时发 omp 风格中文桌面通知; 抑制语义对齐 herdr(聚焦 tab + Ghostty 前台不打扰)"
+platforms = ["macos"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["/bin/sh", "notify.sh"]
