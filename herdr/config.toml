@@ -23,8 +23,8 @@ status_indicators = "symbols"
 # set -g prefix C-s (act like GNU screen)
 # bind | split-window -h (左右分屏)
 split_vertical = "prefix+|"
-# tmux prefix+s choose-tree 习惯 → goto 列 tab/pane; prefix+g 保留双绑
-goto = ["prefix+s", "prefix+g"]
+# tmux prefix+s choose-tree 习惯 → goto 选择器 (过滤键 a/w/t 等可分类列出)
+goto = "prefix+s"
 # herdr 默认 prefix+s = settings, 让位后挪到 shift 位
 settings = "prefix+shift+s"
 # bind - split-window -v (上下分屏) = 默认值 prefix+minus, 无需覆盖
