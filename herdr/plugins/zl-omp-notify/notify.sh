@@ -42,7 +42,7 @@ fi
 
 touch "$NOTIFIED"
 grep -qxF "$pane" "$NOTIFIED" && exit 0
-osascript -e "display notification \"${agent} 在「${ws}」需要你输入 (${pane})\" with title \"omp · 等待输入\" sound name \"default\""
+      "$HOME/dotfile/bin/omp-notify" "等待输入" "${agent} 在「${ws}」需要你输入 (${pane})"
 printf '%s\n' "$pane" >> "$NOTIFIED"
 
 # 清理已离开 blocked 的 pane, 解除武装 (重建当前仍 blocked 的集合)

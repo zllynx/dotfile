@@ -1,0 +1,12 @@
+#!/bin/sh
+# 统一 omp 桌面通知模板 (macOS): title 恒为 "omp · <分类>"
+# 用法: omp-notify <分类> <正文> [声音名]
+#   omp-notify "完成" "重构 done"          → 标题 "omp · 完成"
+#   omp-notify "等待输入" "claude 需要你输入" → 标题 "omp · 等待输入"
+# 调用方: bin/omp-done (收工), herdr/plugins/zl-omp-notify (blocked)
+set -u
+kind=${1:-通知}
+body=${2:-}
+sound=${3:-default}
+esc=$(printf '%s' "$body" | sed 's/\\/\\\\/g; s/"/\\"/g')
+exec osascript -e "display notification \"${esc}\" with title \"omp · ${kind}\" sound name \"${sound}\""

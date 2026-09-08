@@ -9,12 +9,12 @@ msg=${1:-任务完成}
 
 case "$(uname -s)" in
 Darwin)
-  esc=$(printf '%s' "$msg" | sed 's/\\/\\\\/g; s/"/\\"/g')
-  exec osascript -e "display notification \"$esc\" with title \"omp\" sound name \"default\""
+  # 统一模板: title "omp · 完成" (见 bin/omp-notify)
+  exec "$HOME/dotfile/bin/omp-notify" "完成" "$msg"
   ;;
 *)
-  printf '\a'  # BEL 终端铃声
   # powershell.exe 在 PATH = WSL 或 Windows (Git Bash/MSYS)；纯 Linux 无此项，只响铃
+  printf '\a'
   if command -v powershell.exe >/dev/null 2>&1; then
     esc=$(printf '%s' "$msg" | sed "s/'/''/g")
     powershell.exe -NoProfile -Command "
@@ -22,7 +22,7 @@ Darwin)
       \$n = New-Object System.Windows.Forms.NotifyIcon
       \$n.Icon = [System.Drawing.SystemIcons]::Information
       \$n.Visible = \$true
-      \$n.ShowBalloonTip(5000, 'omp', '$esc', [System.Windows.Forms.ToolTipIcon]::Info)
+      \$n.ShowBalloonTip(5000, 'omp · 完成', '$esc', [System.Windows.Forms.ToolTipIcon]::Info)
       Start-Sleep -Seconds 6
       \$n.Dispose()" &
   fi
