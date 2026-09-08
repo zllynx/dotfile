@@ -4,8 +4,9 @@ onboarding = false
 
 [theme]
 # .tmux_local.conf: 手写 Nord truecolor 状态栏配色 → 内置 nord 主题
-name = "nord"
+name = "gruvbox"
 
+auto_switch = false
 [terminal]
 # set-option -g default-shell /bin/zsh
 default_shell = "/bin/zsh"
@@ -17,6 +18,7 @@ tab_bar_position = "bottom"
 # 在分屏边框显示检测到的 agent 标签 (不支持自定义 pane 标题格式)
 show_agent_labels_on_pane_borders = true
 
+status_indicators = "symbols"
 [keys]
 # set -g prefix C-s (act like GNU screen)
 prefix = "ctrl+s"
@@ -45,3 +47,12 @@ resize_pane_right = "prefix+shift+l"
 reload_config = "prefix+ctrl+r"
 # tmux 默认 prefix d detach; 保留 herdr 默认 prefix+q
 detach = ["prefix+d", "prefix+q"]
+# prefix+w navigate 选择模式: workspace 行用 j/k, pane 方向默认已是 h/j/k/l
+# (navigate_* 仅接受普通键, 禁止 prefix+/esc/enter/tab/数字)
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+
+[ui.toast]
+# terminal: OSC 9/99 → Ghostty.app 发通知(带 Ghostty 图标);
+# system 档回退 osascript 归属脚本编辑器、无图标,仅在 terminal-notifier 存在时有激活收益
+delivery = "terminal"
