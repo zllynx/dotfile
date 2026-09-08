@@ -3,12 +3,9 @@
 # 用法: omp-done "任务描述"
 msg=${1:-任务完成}
 
-# herdr 感知: macOS 上 herdr 的 agent 集成会在 agent 完成/需要输入时自动发
-# 桌面通知 (delivery=terminal), 这里再发就是双响; 静默退出让 herdr 全权通知.
-# WSL/其他平台 herdr 桌面通知不可用 (无 OSC 检测/无 dbus), 继续走下面的兜底.
-if [ "$(uname -s)" = Darwin ] && [ -n "$HERDR_PANE_ID" ]; then
-  exit 0
-fi
+# 注: 曾有 "herdr pane 内静默" 守卫, 因 herdr delivery 改为 herdr(仅应用内,
+# 桌面英文横幅关闭)而移除 — omp-done 重新成为 macOS 上完成通知的唯一来源.
+# blocked 场景由 ~/dotfile/launchd/omp-herdr-watch.sh 负责 (见 launchd 同目录).
 
 case "$(uname -s)" in
 Darwin)
