@@ -21,6 +21,7 @@ font-thicken = false
 theme = Gruvbox Material
 #theme = Abernathy
 #theme = TokyoNight Night
+#theme = Catppuccin Mocha
 
 # ========== 光标设置 ==========
 # 光标样式：block（粗方块光标，类似 Tabby）
@@ -58,6 +59,10 @@ unfocused-split-opacity = 0.5
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
+
+# Option(⌥)作为 Alt 发送给 TUI (omp Agent Hub 的 alt+a/alt+o 等依赖此项)
+# 副作用: ⌥+字母不再输入 macOS 特殊字符
+macos-option-as-alt = true
 
 # ========== 快捷键 ==========
 keybind = shift+enter=text:\n
