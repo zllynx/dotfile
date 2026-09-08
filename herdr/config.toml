@@ -43,3 +43,5 @@ resize_pane_up = "prefix+shift+k"
 resize_pane_right = "prefix+shift+l"
 # bind C-r source-file ~/.tmux.conf (bind r 让给了 resize mode)
 reload_config = "prefix+ctrl+r"
+# tmux 默认 prefix d detach; 保留 herdr 默认 prefix+q
+detach = ["prefix+d", "prefix+q"]
