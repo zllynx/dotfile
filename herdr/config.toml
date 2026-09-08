@@ -21,9 +21,12 @@ show_agent_labels_on_pane_borders = true
 status_indicators = "symbols"
 [keys]
 # set -g prefix C-s (act like GNU screen)
-prefix = "ctrl+s"
 # bind | split-window -h (左右分屏)
 split_vertical = "prefix+|"
+# tmux prefix+s choose-tree 习惯 → goto 列 tab/pane; prefix+g 保留双绑
+goto = ["prefix+s", "prefix+g"]
+# herdr 默认 prefix+s = settings, 让位后挪到 shift 位
+settings = "prefix+shift+s"
 # bind - split-window -v (上下分屏) = 默认值 prefix+minus, 无需覆盖
 # bind h/j/k/l select-pane = 默认值 prefix+h/j/k/l, 无需覆盖
 # bind c new-window -c "#{pane_current_path}" = 默认 new_cwd = "follow"
