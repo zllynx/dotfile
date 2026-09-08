@@ -41,6 +41,13 @@ resize_pane_right = "prefix+shift+l"
 # bind C-r source-file
 reload_config = "prefix+ctrl+r"
 detach = ["prefix+d", "prefix+q"]
+# prefix+w navigate workspace 行 vim 上下移 (pane 方向键默认已是 h/j/k/l)
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+# tmux 习惯: prefix+s 列出 tab/pane (goto 选择器, 内置过滤键 w/t/a);
+# settings 让位 → prefix+shift+s
+goto = "prefix+s"
+settings = "prefix+shift+s"
 
 [ui.toast]
 # 桌面通知已全量中文接管: 完成=omp-done, blocked=omp-herdr-watch (launchd)。
