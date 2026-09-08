@@ -1,10 +1,57 @@
+providers:
+  webSearchOrder:
+    - zai
+    - perplexity
+    - gemini
+    - anthropic
+    - codex
+    - xai
+    - exa
+    - tinyfish
+    - jina
+    - kagi
+    - tavily
+    - firecrawl
+    - brave
+    - kimi
+    - parallel
+    - synthetic
+    - searxng
+    - startpage
+    - duckduckgo
+    - ecosia
+    - google
+    - mojeek
+    - public
+symbolPreset: nerd
 theme:
-  dark: titanium
+  dark: dark-gruvbox
+  light: dark-gruvbox
 setupVersion: 2
 modelRoles:
+  smol: zai/glm-5.2:medium
   default: zai/glm-5.3-flash
-composer:
-  shape: band
 defaultThinkingLevel: auto
-dev:
-  autoqaConsent: denied
+composer:
+  shape: box
+statusLine:
+  separator: ascii
+  transparent: false
+  contextLine: annotated
+  sessionAccent: true
+  compactThinkingLevel: false
+terminal:
+  showProgress: true
+tui:
+  textSizing: true
+  tight: true
+  imeSafeCursor: true
+  reactions: true
+display:
+  shimmer: kitt
+  hideToolActivity: false
+  showTokenUsage: true
+  showTurnTime: true
+  cacheMissMarker: true
+task:
+  showResolvedModelBadge: true
