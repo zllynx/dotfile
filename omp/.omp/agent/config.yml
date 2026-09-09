@@ -35,7 +35,7 @@ defaultThinkingLevel: auto
 composer:
   shape: box
 statusLine:
-  separator: ascii
+  separator: none
   transparent: false
   contextLine: annotated
   sessionAccent: true
@@ -54,7 +54,6 @@ statusLine:
     - cost
   rightSegments:
     - session_name
-    - cache_hit
 terminal:
   showProgress: true
 tui:
