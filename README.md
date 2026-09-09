@@ -18,7 +18,7 @@ dotfile/
 ├── starship/          # Starship 提示符配置
 ├── karabiner/         # Karabiner (macOS) 键盘改键
 ├── windows/           # Windows 侧配置 (Windows Terminal)
-├── omp/               # omp 数据目录
+├── omp/               # stow 包: omp 配置本体，软链到 ~/.omp/agent/
 ├── agents/            # Agent 记忆与 skills 本体 (git 子模块)
 ├── agents-skills/     # stow 包: 各工具 skills 目录软链
 ├── agents-memory/     # stow 包: ~/.agents 与 ~/.claude/CLAUDE.md 软链
@@ -116,6 +116,25 @@ for dir in */; do stow -D "${dir%/}"; done
 ### Zsh
 - 使用 Zi (zimfw) 框架
 - 包含个人别名和函数
+
+### omp
+
+配置本体全部住在 `omp/.omp/agent/`，`stow omp` 后 `~/.omp/agent/` 下对应项均为软链：
+
+| 本体 | 链接到 |
+|---|---|
+| `omp/.omp/agent/config.yml` | `~/.omp/agent/config.yml` |
+| `omp/.omp/agent/keybindings.yml` | `~/.omp/agent/keybindings.yml` |
+| `omp/.omp/agent/themes/` | `~/.omp/agent/themes/` |
+| `omp/.omp/agent/extensions/` | `~/.omp/agent/extensions/` |
+
+例外（实体文件，不入仓）：
+
+- `models.yml` — 含明文 provider API key，只留在 `~/.omp/agent/`
+- `*.db` / `*.db-wal` / `sessions/` / `cache/` / `blobs/` — omp 运行时数据
+- `config.yml.lock` — omp 顺着软链写回的锁文件，已 gitignore
+
+omp 的 `config set` / `/settings` 会跟随软链写入本体，直接在会话里改配置即可，改完到 `~/dotfile` 提交。
 
 ## Agent 配置管理
 

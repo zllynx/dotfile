@@ -1,0 +1,5 @@
+app.session.observe:
+  - alt+o
+app.session.toggleSort:
+  - alt+t
+app.agents.hub: []

@@ -13,6 +13,16 @@ This project uses **bd** (beads) for issue tracking. Run `bd prime` for full wor
 > source of truth; don't `bd import` during normal operation; don't
 > reach for third-party Dolt hosting before trying the default).
 
+## 配置本体规范 (stow)
+
+**所有配置本体住在本仓库，`~/` 下对应路径只能是软链（`stow` 管理）。home 目录出现实体配置文件 = 违规，收编进仓库后 `stow -R <pkg>`。**
+
+- omp 配置本体在 `omp/.omp/agent/`（config.yml、keybindings.yml、themes/、extensions/），`~/.omp/agent/` 下均为软链。
+- 例外（保留实体、不入仓）：`~/.omp/agent/models.yml`（含明文 API key）、`*.db*`、`sessions/`、`cache/`、`blobs/`、`config.yml.lock`（已 gitignore）。
+- 改用户机器上的 omp/agent 配置时：直接改 `~/.omp/agent/config.yml`（omp `config set` 会跟随软链写进本体），然后 `cd ~/dotfile && git add -A && git commit && git push`。禁止复制回 home 或另建副本。
+- 同理适用于 `~/.claude/skills`、`~/.agents`（agents-skills / agents-memory 两个 stow 包）。
+- 新工具接入：配置放进 `<pkg>/` 下正确的相对路径（stow 以此建链），README「目录结构」同步加一行。
+
 ## Quick Reference
 
 ```bash

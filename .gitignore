@@ -16,3 +16,6 @@ nvim/.config/nvim/lazyvim.json
 
 # Karabiner auto backups
 karabiner/.config/karabiner/automatic_backups/
+
+# omp runtime lock
+omp/.omp/agent/config.yml.lock
