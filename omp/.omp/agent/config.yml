@@ -73,17 +73,20 @@ retry:
   fallbackChains:
     zai/*:
       - alibaba-token-plan/qwen3.8-flash
-      - siliconflow/zai-org/GLM-5.3
       - deepseek/deepseek-v4-flash
+      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
     alibaba-token-plan/*:
       - zai/glm-5.3-flash
-      - siliconflow/zai-org/GLM-5.3
       - deepseek/deepseek-v4-flash
+      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
+    deepseek/*:
+      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
+      - zai/glm-5.3-flash
     siliconflow/*:
       - zai/glm-5.3-flash
-      - deepseek/deepseek-v4-flash
-    deepseek/*:
-      - zai/glm-5.3-flash
     default:
-      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
+      - zai/glm-5.3-flash
+      - alibaba-token-plan/qwen3.8-flash
       - deepseek/deepseek-v4-flash
+      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
+  usageAwareFallback: true
