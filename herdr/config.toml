@@ -40,14 +40,10 @@ move_tab_next = "prefix+>"
 close_tab = "prefix+shift+q"
 # bind . select-pane -T (重命名 pane 标题)
 rename_pane = "prefix+."
-# bind -r J/K/H/L resize-pane ±5
-resize_pane_left = "prefix+shift+h"
-resize_pane_down = "prefix+shift+j"
-resize_pane_up = "prefix+shift+k"
-resize_pane_right = "prefix+shift+l"
-# bind C-r source-file
-reload_config = "prefix+ctrl+r"
-# prefix+w navigate workspace 行 vim 上下移 (pane 方向默认 h/j/k/l)
+# bind -r J/K/H/L resize-pane ±5 → 改用 prefix+r resize mode, 释放 shift+hjkl
+# agent 遍历 (J=下一个 K=上一个, 顺侧栏列表序)
+next_agent = "prefix+shift+j"
+previous_agent = "prefix+shift+k"
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 
