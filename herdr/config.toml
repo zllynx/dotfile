@@ -48,9 +48,9 @@ navigate_workspace_down = "j"
 # settings 让位 → prefix+shift+s
 goto = "prefix+s"
 settings = "prefix+shift+s"
-# agent 遍历 (herdr 特有): 无前缀直达, ctrl+alt 族全终端无冲突
-next_agent = "ctrl+alt+j"
-previous_agent = "ctrl+alt+k"
+# agent 遍历: prefix+alt 层 = agent 域 (与 focus_agent 的 prefix+alt+1..9 对齐)
+next_agent = "prefix+alt+j"
+previous_agent = "prefix+alt+k"
 # 按序号 1-9 跳到第 N 个 agent
 focus_agent = "prefix+alt+1..9"
 
