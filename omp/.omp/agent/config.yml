@@ -30,7 +30,7 @@ theme:
 setupVersion: 2
 modelRoles:
   smol: zai/glm-5.2:medium
-  default: zai/glm-5.3-flash
+  default: alibaba-token-plan/qwen3.8-flash
 defaultThinkingLevel: auto
 composer:
   shape: box
@@ -40,6 +40,20 @@ statusLine:
   contextLine: annotated
   sessionAccent: true
   compactThinkingLevel: false
+  preset: custom
+  leftSegments:
+    - pi
+    - model
+    - mode
+    - collab
+    - path
+    - git
+    - pr
+    - context_pct
+    - cost
+  rightSegments:
+    - session_name
+    - cache_hit
 terminal:
   showProgress: true
 tui:
@@ -55,3 +69,21 @@ display:
   cacheMissMarker: true
 task:
   showResolvedModelBadge: true
+retry:
+  fallbackChains:
+    zai/*:
+      - alibaba-token-plan/qwen3.8-flash
+      - siliconflow/zai-org/GLM-5.3
+      - deepseek/deepseek-v4-flash
+    alibaba-token-plan/*:
+      - zai/glm-5.3-flash
+      - siliconflow/zai-org/GLM-5.3
+      - deepseek/deepseek-v4-flash
+    siliconflow/*:
+      - zai/glm-5.3-flash
+      - deepseek/deepseek-v4-flash
+    deepseek/*:
+      - zai/glm-5.3-flash
+    default:
+      - siliconflow/deepseek-ai/DeepSeek-V4-Flash
+      - deepseek/deepseek-v4-flash
