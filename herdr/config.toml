@@ -24,7 +24,7 @@ status_indicators = "symbols"
 prefix = "ctrl+s"
 # 中文 IME 会拦截裸字母第二键 (macOS 机制): 中文态下二段键需先手动切英文输入;
 # herdr 自动切输入源的开关有还原 bug, 已回滚
-goto = "prefix+s"
+goto = ["prefix+s", "prefix+a"]
 settings = "prefix+shift+s"
 workspace_picker = "prefix+w"
 new_tab = "prefix+c"
@@ -40,6 +40,8 @@ move_tab_next = "prefix+>"
 close_tab = "prefix+shift+q"
 # bind . select-pane -T (重命名 pane 标题)
 rename_pane = "prefix+."
+# tab 重命名 (原默认 prefix+shift+t)
+rename_tab = "prefix+,"
 # bind -r J/K/H/L resize-pane ±5 → 改用 prefix+r resize mode, 释放 shift+hjkl
 # J/K agent 遍历 (高频)
 next_agent = "prefix+shift+j"
