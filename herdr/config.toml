@@ -22,13 +22,13 @@ status_indicators = "symbols"
 [keys]
 # set -g prefix C-s (act like GNU screen)
 prefix = "ctrl+s"
-# 中文 IME 会拦截裸字母第二键 → 高频动作双绑 alt 版 (⌥ 组合 IME 不拦);
-# 英文输入态两版通用
-goto = ["prefix+s", "prefix+alt+s"]
+# 中文 IME 会拦截裸字母第二键 (macOS 机制): 中文态下二段键需先手动切英文输入;
+# herdr 自动切输入源的开关有还原 bug, 已回滚
+goto = "prefix+s"
 settings = "prefix+shift+s"
-workspace_picker = ["prefix+w", "prefix+alt+w"]
-new_tab = ["prefix+c", "prefix+alt+c"]
-detach = ["prefix+d", "prefix+q", "prefix+alt+q"]
+workspace_picker = "prefix+w"
+new_tab = "prefix+c"
+detach = ["prefix+d", "prefix+q"]
 # bind | split-window -h (左右分屏)
 split_vertical = "prefix+|"
 # bind ' last-pane
@@ -50,12 +50,7 @@ reload_config = "prefix+ctrl+r"
 # prefix+w navigate workspace 行 vim 上下移 (pane 方向默认 h/j/k/l)
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
-# agent 遍历: prefix+alt 层 = agent 域 (对齐 focus_agent prefix+alt+1..9)
-next_agent = "prefix+alt+j"
-previous_agent = "prefix+alt+k"
 
-# 按序号 1-9 跳到第 N 个 agent
-focus_agent = "prefix+alt+1..9"
 
 [ui.toast]
 # 桌面通知已全量中文接管: 完成=omp-done, blocked=omp-herdr-watch (launchd)。
