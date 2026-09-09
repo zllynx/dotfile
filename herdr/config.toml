@@ -4,7 +4,7 @@ onboarding = false
 
 [theme]
 # .tmux_local.conf: 手写 Nord truecolor 状态栏配色 → 内置 nord 主题
-name = "dracula"
+name = "solarized"
 
 auto_switch = false
 [terminal]
@@ -48,6 +48,11 @@ navigate_workspace_down = "j"
 # settings 让位 → prefix+shift+s
 goto = "prefix+s"
 settings = "prefix+shift+s"
+# agent 遍历 (herdr 特有): 无前缀直达, ctrl+alt 族全终端无冲突
+next_agent = "ctrl+alt+j"
+previous_agent = "ctrl+alt+k"
+# 按序号 1-9 跳到第 N 个 agent
+focus_agent = "prefix+alt+1..9"
 
 [ui.toast]
 # 桌面通知已全量中文接管: 完成=omp-done, blocked=omp-herdr-watch (launchd)。
@@ -56,9 +61,9 @@ settings = "prefix+shift+s"
 delivery = "herdr"
 
 [ui.sidebar.agents]
-# L1: 状态图标(自带状态色) + tab 号(弱化); L2: 会话主题占满行宽, 超宽在 sidebar 边缘硬裁切
+# L1: 状态图标(色=状态) + 会话主题(亮米白粗体); L2: workspace + agent 类型(灰)
 # token 可用 { fg, bold, dim, rules = [{ contains/equals/gt/lt, ... }] } 按值改样式
 rows = [
-  ["state_icon", { token = "tab", dim = true }],
-  [{ token = "terminal_title_stripped", bold = true, dim = false, fg = "#ebdbb2" }],
+  ["state_icon", { token = "terminal_title_stripped", bold = true, dim = false, fg = "#ebdbb2" }],
+  [{ token = "workspace", dim = true }, { token = "agent", dim = true }],
 ]
