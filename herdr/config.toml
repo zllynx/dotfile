@@ -40,15 +40,8 @@ move_tab_next = "prefix+>"
 close_tab = "prefix+shift+q"
 # bind . select-pane -T (重命名 pane 标题)
 rename_pane = "prefix+."
-# tab 重命名 (原默认 prefix+shift+t)
-rename_tab = "prefix+,"
-# bind -r J/K/H/L resize-pane ±5 → 改用 prefix+r resize mode, 释放 shift+hjkl
-# J/K agent 遍历 (高频)
-next_agent = "prefix+shift+j"
-previous_agent = "prefix+shift+k"
-# H/L workspace 上下切换
-next_workspace = "prefix+shift+l"
-previous_workspace = "prefix+shift+h"
+# swap pane 位置: prefix+shift+h/j/k/l (herdr 默认键, 恢复)
+# agent 遍历: 无键盘绑定 — 用 goto (prefix+s, 过滤 b/w/i/d) 或侧栏点击
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 
