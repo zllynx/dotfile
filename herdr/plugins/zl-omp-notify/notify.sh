@@ -36,7 +36,7 @@ in_focused=$(printf '%s' "$row" | cut -f3)
 
 if [ "$in_focused" = "y" ]; then
   asn=$(lsappinfo front 2>/dev/null) || exit 0
-  bid=$(lsappinfo info -only bundleid "$asn" 2>/dev/null) | sed -E 's/.*"([^"]+)".*/\1/'
+  bid=$(lsappinfo info -only bundleid "$asn" 2>/dev/null | sed -E 's/.*"([^"]+)".*/\1/')
   [ "$bid" = "com.mitchellh.ghostty" ] && exit 0   # 用户正盯着这个 herdr 窗口
 fi
 
