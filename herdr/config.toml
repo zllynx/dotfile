@@ -22,6 +22,13 @@ status_indicators = "symbols"
 [keys]
 # set -g prefix C-s (act like GNU screen)
 prefix = "ctrl+s"
+# 中文 IME 会拦截裸字母第二键 → 高频动作双绑 alt 版 (⌥ 组合 IME 不拦);
+# 英文输入态两版通用
+goto = ["prefix+s", "prefix+alt+s"]
+settings = "prefix+shift+s"
+workspace_picker = ["prefix+w", "prefix+alt+w"]
+new_tab = ["prefix+c", "prefix+alt+c"]
+detach = ["prefix+d", "prefix+q", "prefix+alt+q"]
 # bind | split-window -h (左右分屏)
 split_vertical = "prefix+|"
 # bind ' last-pane
@@ -40,17 +47,13 @@ resize_pane_up = "prefix+shift+k"
 resize_pane_right = "prefix+shift+l"
 # bind C-r source-file
 reload_config = "prefix+ctrl+r"
-detach = ["prefix+d", "prefix+q"]
-# prefix+w navigate workspace 行 vim 上下移 (pane 方向键默认已是 h/j/k/l)
+# prefix+w navigate workspace 行 vim 上下移 (pane 方向默认 h/j/k/l)
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
-# tmux 习惯: prefix+s 列出 tab/pane (goto 选择器, 内置过滤键 w/t/a);
-# settings 让位 → prefix+shift+s
-goto = "prefix+s"
-settings = "prefix+shift+s"
-# agent 遍历: prefix+alt 层 = agent 域 (与 focus_agent 的 prefix+alt+1..9 对齐)
+# agent 遍历: prefix+alt 层 = agent 域 (对齐 focus_agent prefix+alt+1..9)
 next_agent = "prefix+alt+j"
 previous_agent = "prefix+alt+k"
+
 # 按序号 1-9 跳到第 N 个 agent
 focus_agent = "prefix+alt+1..9"
 
@@ -67,8 +70,3 @@ rows = [
   ["state_icon", { token = "terminal_title_stripped", bold = true, dim = false, fg = "#ebdbb2" }],
   [{ token = "workspace", dim = true }, { token = "agent", dim = true }],
 ]
-
-[experimental]
-# 前缀态期间自动切 ASCII 输入源, 中文 IME 不再拦截 prefix+字母 的第二键;
-# 退出前缀态恢复原输入源 (macOS/Windows only, best-effort)
-switch_ascii_input_source_in_prefix = true
