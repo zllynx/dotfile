@@ -44,14 +44,14 @@ statusLine:
   leftSegments:
     - pi
     - model
-    - cache_hit
+    - context_pct
     - mode
     - collab
     - path
     - git
     - pr
-    - context_pct
     - cost
+    - cache_hit
   rightSegments:
     - session_name
 terminal:
