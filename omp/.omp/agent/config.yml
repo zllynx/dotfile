@@ -30,7 +30,7 @@ theme:
 setupVersion: 2
 modelRoles:
   smol: zai/glm-5.2:medium
-  default: alibaba-token-plan/qwen3.8-flash
+  default: zai/glm-5.3-flash
 defaultThinkingLevel: auto
 composer:
   shape: box
