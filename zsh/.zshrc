@@ -93,8 +93,18 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 # proxy setting
 # -------------
 
+# WSL 判定: Windows 宿主跑 v2rayN (naive 节点), 端口与 macOS 不同
+_is_wsl() { [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; }
+
 # 代理端口配置（可在 ~/.user_env.sh 中覆盖）
-export PROXY_PORT=${PROXY_PORT:-10808}
+# - macOS:              v2rayN 混合口 10808, http/socks 同端口
+# - WSL (Windows 宿主): naive 节点 http=12445, socks=11080, 两个独立端口
+if _is_wsl; then
+    export PROXY_PORT=${PROXY_PORT:-12445}
+    export PROXY_SOCKS_PORT=${PROXY_SOCKS_PORT:-11080}
+else
+    export PROXY_PORT=${PROXY_PORT:-10808}
+fi
 export PROXY_TYPE=${PROXY_TYPE:-http}
 
 # 自动探测代理主机: macOS / 普通 Linux 用 127.0.0.1; WSL 取 Windows 宿主 IP
@@ -103,7 +113,7 @@ setup_proxy_host() {
 
     if [[ "$os_type" == "Darwin" ]]; then
         export PROXY_HOST="127.0.0.1"
-    elif [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+    elif _is_wsl; then
         # WSL: 优先用默认网关, 失败则退回 resolv.conf
         local win_ip=""
         command -v ip >/dev/null 2>&1 && win_ip=$(ip route 2>/dev/null | awk '/default/{print $3; exit}')
@@ -123,7 +133,9 @@ setproxy() {
     setup_proxy_host
 
     local proxy_url="$PROXY_TYPE://$PROXY_HOST:$PROXY_PORT"
-    local socks_url="socks5://$PROXY_HOST:$PROXY_PORT"
+    local socks_port="${PROXY_SOCKS_PORT:-$PROXY_PORT}"
+    # socks5h: 域名由代理解析。WSL 本地 DNS 被污染 (google.com 解析到 Twitter IP), socks5:// 本地解析必挂
+    local socks_url="socks5h://$PROXY_HOST:$socks_port"
 
     export http_proxy="$proxy_url"
     export https_proxy="$proxy_url"
@@ -135,7 +147,7 @@ setproxy() {
     git config --global http.proxy "$proxy_url"
     git config --global https.proxy "$proxy_url"
 
-    echo "✅ 代理已启动: $proxy_url"
+    echo "✅ 代理已启动: $proxy_url (socks5: $PROXY_HOST:$socks_port)"
 }
 
 # 取消代理
