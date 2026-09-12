@@ -96,6 +96,15 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 # WSL 判定: Windows 宿主跑 v2rayN (naive 节点), 端口与 macOS 不同
 _is_wsl() { [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; }
 
+# Windows PATH 精简: wsl.conf appendWindowsPath=false 后, 只补必要目录
+# (powershell.exe 供 omp-done toast 通知使用; .exe 仍可直接执行, 只是不再全量注入 PATH)
+if _is_wsl; then
+    for _wdir in /mnt/c/Windows/System32/WindowsPowerShell/v1.0; do
+        [[ -d $_wdir ]] && path+=("$_wdir")
+    done
+    unset _wdir
+fi
+
 # 代理端口配置（可在 ~/.user_env.sh 中覆盖）
 # - macOS:              v2rayN 混合口 10808, http/socks 同端口
 # - WSL (Windows 宿主): naive 节点 http=12445, socks=11080, 两个独立端口
