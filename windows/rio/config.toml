@@ -10,7 +10,7 @@ padding = [0]
 
 [fonts]
 family = "Maple Mono NF CN"
-size = 14
+size = 14.5
 
 [window]
 opacity = 0.81
