@@ -22,8 +22,7 @@ show_agent_labels_on_pane_borders = true
 
 status_indicators = "symbols"
 [keys]
-# set -g prefix C-s (act like GNU screen) — 肌肉记忆, 保留
-# rio 宿主下须用 `herdrw` 启动 (~/dotfile/bin/herdrw, 剥离 kitty 键盘协议序列, 规避 herdr#3340); 其他终端用 herdr
+# set -g prefix C-s (act like GNU screen)
 prefix = "ctrl+s"
 # 中文 IME 会拦截裸字母第二键 (macOS 机制): 中文态下二段键需先手动切英文输入;
 # herdr 自动切输入源的开关有还原 bug, 已回滚

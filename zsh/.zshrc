@@ -278,7 +278,6 @@ alias rn="rmux new-session -s"
 alias ra="rmux attach-session -t"
 alias tf="tmuxifier"
 alias h="herdr"
-alias hw="herdrw"  # rio 宿主专用 (规避 herdr#3340 prefix 失效), 其他终端仍用 h=herdr
 alias c="clear"
 alias lg="lazygit"
 alias lzd="lazydocker"
