@@ -45,7 +45,7 @@ config.window_close_confirmation = 'NeverPrompt'
 
 -- 字体 (与 WT 相同: Maple Mono NF CN)
 config.font = wezterm.font 'Maple Mono NF CN'
-config.font_size = 14
+config.font_size = 15
 
 -- 快捷键 (Ctrl+V 直贴; 选中即复制到剪贴板为 wezterm 默认行为)
 config.keys = {
