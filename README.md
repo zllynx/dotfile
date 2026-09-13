@@ -17,7 +17,7 @@ dotfile/
 ├── zellij/            # Zellij 终端复用器配置
 ├── starship/          # Starship 提示符配置
 ├── karabiner/         # Karabiner (macOS) 键盘改键
-├── windows/           # Windows 侧配置 (Windows Terminal)
+├── windows/           # Windows 侧配置 (Windows Terminal; rio/ 为 Rio 终端本体, cp 到 %APPDATA%\\Local\\rio)
 ├── omp/               # stow 包: omp 配置本体，软链到 ~/.omp/agent/
 ├── agents/            # Agent 记忆与 skills 本体 (git 子模块)
 ├── agents-skills/     # stow 包: 各工具 skills 目录软链
