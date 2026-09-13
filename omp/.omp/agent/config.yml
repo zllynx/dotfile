@@ -62,7 +62,7 @@ tui:
   imeSafeCursor: true
   reactions: true
 display:
-  shimmer: kitt
+  shimmer: disabled
   hideToolActivity: false
   showTokenUsage: true
   showTurnTime: true
