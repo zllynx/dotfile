@@ -534,3 +534,7 @@ fi
 # 通知: bell=终端铃声(BEL), toast=Windows 系统弹窗 (脚本在 ~/.local/bin/omp-done)
 alias bell="printf '\\a'"
 alias toast="$HOME/.local/bin/omp-done"
+
+# 关闭 tty 流控: 放行 Ctrl+Q 给 nvim 视觉块 (wezterm Ctrl+V 已被粘贴占用)
+# 代价: Ctrl+S/Ctrl+Q 的输出冻结/恢复失效 (已改绑 herdr/tmux, 无影响)
+stty -ixon 2>/dev/null
