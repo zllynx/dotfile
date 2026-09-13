@@ -22,3 +22,9 @@ shape = 'block'
 [shell]
 program = "wsl.exe"
 args = ["-d", "Arch", "--user", "zllynx", "--cd", "~"]
+
+# tab 管理全权交给 herdr: Plain 关掉 rio 窗口内导航条。
+# 否则 Windows 下单 tab 也会把 herdr 的 OSC 标题 (默认 "{hostname}: {workspace}"
+# = "rainbow: ~") 画在窗口内容区第一行, 看起来像多出来一行
+[navigation]
+mode = "Plain"

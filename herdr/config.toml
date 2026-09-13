@@ -14,13 +14,16 @@ default_shell = "/bin/zsh"
 [ui]
 # set-option -g status-position bottom
 tab_bar_position = "bottom"
+# 窗口标题: 默认 "{hostname}: {workspace}" = "rainbow: ~", 改为当前任务标题 (omp 会话名)
+window_title = "{terminal_title}"
 # pane-border-status top + pane-border-format " #P #T " 的最接近替代:
 # 在分屏边框显示检测到的 agent 标签 (不支持自定义 pane 标题格式)
 show_agent_labels_on_pane_borders = true
 
 status_indicators = "symbols"
 [keys]
-# set -g prefix C-s (act like GNU screen)
+# set -g prefix C-s (act like GNU screen) — 肌肉记忆, 保留
+# rio 宿主下须用 `herdrw` 启动 (~/dotfile/bin/herdrw, 剥离 kitty 键盘协议序列, 规避 herdr#3340); 其他终端用 herdr
 prefix = "ctrl+s"
 # 中文 IME 会拦截裸字母第二键 (macOS 机制): 中文态下二段键需先手动切英文输入;
 # herdr 自动切输入源的开关有还原 bug, 已回滚
