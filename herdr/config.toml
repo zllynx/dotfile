@@ -40,6 +40,8 @@ move_tab_next = "prefix+>"
 close_tab = "prefix+shift+q"
 # bind . select-pane -T (重命名 pane 标题)
 rename_pane = "prefix+."
+# bind , rename-window → 重命名 tab (883cdc9 误删, 2026-09-13 恢复)
+rename_tab = "prefix+,"
 # swap pane 位置: prefix+shift+h/j/k/l (herdr 默认键, 恢复)
 # agent 遍历: 无键盘绑定 — 用 goto (prefix+s, 过滤 b/w/i/d) 或侧栏点击
 navigate_workspace_up = "k"
