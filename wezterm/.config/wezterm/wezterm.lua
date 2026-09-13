@@ -41,10 +41,16 @@ config.default_cursor_style = 'SteadyBlock'
 config.window_background_opacity = 0.81
 config.win32_system_backdrop = 'Acrylic'
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
+config.window_close_confirmation = 'NeverPrompt'
 
 -- 字体 (与 WT 相同: Maple Mono NF CN)
 config.font = wezterm.font 'Maple Mono NF CN'
-config.font_size = 16
+config.font_size = 14
+
+-- 快捷键 (Ctrl+V 直贴; 选中即复制到剪贴板为 wezterm 默认行为)
+config.keys = {
+  { key = 'v', mods = 'CTRL', action = wezterm.action.PasteFrom 'Clipboard' },
+}
 
 -- 滚动 (WT Arch profile: historySize 20000)
 config.scrollback_lines = 20000
