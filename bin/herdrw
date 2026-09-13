@@ -139,7 +139,12 @@ def main():
                     except OSError:
                         pass
                 else:
-                    forward(signal.SIGHUP)  # stdin EOF: 让 herdr 收尾
+                    # stdin EOF = 终端已消失: 结束 client (会话在 server 侧保留)
+                    try:
+                        os.kill(pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    break
             if master in r:
                 try:
                     data = os.read(master, 65536)
