@@ -5,11 +5,11 @@
 #  M+w/a/s/d        焦点 上/左/下/右          M+Enter          打开 Ghostty
 #  M+shift+w/a/s/d  移动窗口                  M+1..9           看 workspace N
 #  M+shift+1..9     丢窗口到 workspace N      M+tab            回上一个 workspace
-#  M+up/down        焦点切屏 (上=27"/下=MBP)  M+shift+tab      workspace 挪到另一屏
-#  M+shift+up/down  窗口扔到另一屏            M+f              全屏
+#  M+' / M+;        焦点切上屏/下屏(HHKB箭头位) M+shift+tab     workspace 挪到另一屏
+#  M+shift+' / M+shift+;  窗口扔到另一屏         M+f              全屏
 #  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
 #  M+slash          横竖布局轮换              M+comma          accordion 轮换
-#  M+;              service 模式（esc 退出并重载配置）
+#  M+space          service 模式（esc 退出并重载配置）
 # ────────────────────────────────────────────────────────────────
 config-version = 2
 
@@ -97,17 +97,21 @@ ctrl-alt-shift-9 = 'move-node-to-workspace 9'
 ctrl-alt-tab = 'workspace-back-and-forth'
 ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-# 双屏上下布局：外接在上，MacBook 在下
+# 双屏上下布局：外接在上，MacBook 在下；[/;' 即 HHKB 箭头位（Fn 已去除），[ = ←、/ = → 备用
 ctrl-alt-up = 'focus-monitor up'
 ctrl-alt-down = 'focus-monitor down'
+ctrl-alt-left = 'focus-monitor left'
+ctrl-alt-right = 'focus-monitor right'
 ctrl-alt-shift-up = 'move-node-to-monitor up'
 ctrl-alt-shift-down = 'move-node-to-monitor down'
+ctrl-alt-shift-left = 'move-node-to-monitor left'
+ctrl-alt-shift-right = 'move-node-to-monitor right'
 
 ctrl-alt-f = 'fullscreen'
 ctrl-alt-slash = 'layout tiles horizontal vertical'
 ctrl-alt-comma = 'layout accordion horizontal vertical'
 ctrl-alt-shift-space = 'layout floating tiling'
-ctrl-alt-semicolon = 'mode service'
+ctrl-alt-space = 'mode service'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
