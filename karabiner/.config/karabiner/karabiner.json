@@ -1260,9 +1260,7 @@
             "one_to_many_mappings": {
                 "right_command": [
                     "left_control",
-                    "left_shift",
-                    "left_option",
-                    "left_command"
+                    "left_option"
                 ]
             },
             "selected": true,

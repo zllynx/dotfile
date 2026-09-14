@@ -1,62 +1,40 @@
-# Place a copy of this config to ~/.aerospace.toml
-# After that, you can edit ~/.aerospace.toml to your liking
+# AeroSpace 配置 — zhenli
+# 快捷键前缀 M = ctrl+alt（Karabiner 把右 Cmd 映射为 ctrl+alt，左手零占用）
+#
+# ── 速查 ─────────────────────────────────────────────────────────
+#  M+h/j/k/l        焦点 左/下/上/右          M+Enter          打开 Ghostty
+#  M+shift+h/j/k/l  移动窗口                  M+1..9           看 workspace N
+#  M+shift+1..9     丢窗口到 workspace N      M+tab            回上一个 workspace
+#  M+up/down        焦点切屏 (上=27"/下=MBP)  M+shift+tab      workspace 挪到另一屏
+#  M+shift+up/down  窗口扔到另一屏            M+f              全屏
+#  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
+#  M+slash          横竖布局轮换              M+comma          accordion 轮换
+#  M+;              service 模式（esc 退出并重载配置）
+# ────────────────────────────────────────────────────────────────
+config-version = 2
 
-# You can use it to add commands that run after login to macOS user session.
-# 'start-at-login' needs to be 'true' for 'after-login-command' to work
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
-after-login-command = []
-
-# You can use it to add commands that run after AeroSpace startup.
-# 'after-startup-command' is run after 'after-login-command'
-# Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
   'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=7.0'
 ]
-# Start AeroSpace at login
-start-at-login = false
 
-# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers = false
-enable-normalization-opposite-orientation-for-nested-containers = false
+start-at-login = true
+auto-reload-config = true
 
-# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
-# The 'accordion-padding' specifies the size of accordion padding
-# You can set 0 to disable the padding feature
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
 accordion-padding = 30
-
-# Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
-
-# Possible values: horizontal|vertical|auto
-# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
-#               tall monitor (anything higher than wide) gets vertical orientation
 default-root-container-orientation = 'auto'
 
-# Mouse follows focus when focused monitor changes
-# Drop it from your config, if you don't like this behavior
-# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
-# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
-# Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-
-# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
-# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
-# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
 automatically-unhide-macos-hidden-apps = false
 
+# 空 workspace 常驻：数字随时可按，不必先有窗口
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-# Possible values: (qwerty|dvorak)
-# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
 preset = 'qwerty'
 
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
-# Possible values:
-# - Constant:     gaps.outer.top = 8
-# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
-#                 In this example, 24 is a default value when there is no match.
-#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
-#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 10
 inner.vertical =   10
@@ -65,103 +43,129 @@ outer.bottom =     0
 outer.top =        0
 outer.right =      10
 
-# 'main' binding mode declaration
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-# 'main' binding mode must be always presented
-# Fallback value (if you omit the key): mode.main.binding = {}
+# 双屏固定分区：1-5 常驻 27" 外接（RV200plus），6-9 常驻 MacBook 内屏（main）
+# 拔掉外接单屏使用时，1-5 自动回落到唯一屏幕
+[workspace-to-monitor-force-assignment]
+'1' = 'RV200plus'
+'2' = 'RV200plus'
+'3' = 'RV200plus'
+'4' = 'RV200plus'
+'5' = 'RV200plus'
+'6' = 'main'
+'7' = 'main'
+'8' = 'main'
+'9' = 'main'
+
 [mode.main.binding]
+ctrl-alt-enter = 'exec-and-forget open -a Ghostty'
 
-# All possible keys:
-# - Letters.        a, b, c, ..., z
-# - Numbers.        0, 1, 2, ..., 9
-# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
-# - F-keys.         f1, f2, ..., f20
-# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
-#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
-# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
-#                   keypadMinus, keypadMultiply, keypadPlus
-# - Arrows.         left, down, up, right
+# 焦点与移动（vim 方位）
+ctrl-alt-h = 'focus left'
+ctrl-alt-j = 'focus down'
+ctrl-alt-k = 'focus up'
+ctrl-alt-l = 'focus right'
+ctrl-alt-shift-h = 'move left'
+ctrl-alt-shift-j = 'move down'
+ctrl-alt-shift-k = 'move up'
+ctrl-alt-shift-l = 'move right'
 
-# All possible modifiers: cmd, alt, ctrl, shift
+# 缩放
+ctrl-alt-minus = 'resize smart -50'
+ctrl-alt-equal = 'resize smart +50'
 
-# All possible commands: https://nikitabobko.github.io/AeroSpace/commands
+# 看 workspace / 丢窗口
+ctrl-alt-1 = 'workspace 1'
+ctrl-alt-2 = 'workspace 2'
+ctrl-alt-3 = 'workspace 3'
+ctrl-alt-4 = 'workspace 4'
+ctrl-alt-5 = 'workspace 5'
+ctrl-alt-6 = 'workspace 6'
+ctrl-alt-7 = 'workspace 7'
+ctrl-alt-8 = 'workspace 8'
+ctrl-alt-9 = 'workspace 9'
+ctrl-alt-shift-1 = 'move-node-to-workspace 1'
+ctrl-alt-shift-2 = 'move-node-to-workspace 2'
+ctrl-alt-shift-3 = 'move-node-to-workspace 3'
+ctrl-alt-shift-4 = 'move-node-to-workspace 4'
+ctrl-alt-shift-5 = 'move-node-to-workspace 5'
+ctrl-alt-shift-6 = 'move-node-to-workspace 6'
+ctrl-alt-shift-7 = 'move-node-to-workspace 7'
+ctrl-alt-shift-8 = 'move-node-to-workspace 8'
+ctrl-alt-shift-9 = 'move-node-to-workspace 9'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-# You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
-# alt-enter = '''exec-and-forget osascript -e '
-# tell application "Terminal"
-#     do script
-#     activate
-# end tell'
-# '''
+ctrl-alt-tab = 'workspace-back-and-forth'
+ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#layout
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+# 双屏上下布局：外接在上，MacBook 在下
+ctrl-alt-up = 'focus-monitor up'
+ctrl-alt-down = 'focus-monitor down'
+ctrl-alt-shift-up = 'move-node-to-monitor up'
+ctrl-alt-shift-down = 'move-node-to-monitor down'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#focus
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+ctrl-alt-f = 'fullscreen'
+ctrl-alt-slash = 'layout tiles horizontal vertical'
+ctrl-alt-comma = 'layout accordion horizontal vertical'
+ctrl-alt-shift-space = 'layout floating tiling'
+ctrl-alt-semicolon = 'mode service'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#move
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#resize
-alt-shift-minus = 'resize smart -50'
-alt-shift-equal = 'resize smart +50'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-2 = 'move-node-to-workspace 2'
-alt-shift-3 = 'move-node-to-workspace 3'
-alt-shift-4 = 'move-node-to-workspace 4'
-alt-shift-5 = 'move-node-to-workspace 5'
-alt-shift-6 = 'move-node-to-workspace 6'
-alt-shift-7 = 'move-node-to-workspace 7'
-alt-shift-8 = 'move-node-to-workspace 8'
-alt-shift-9 = 'move-node-to-workspace 9'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-tab = 'workspace-back-and-forth'
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-semicolon = 'mode service'
-
-alt-f = 'fullscreen'
-# 'service' binding mode declaration.
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+r = ['flatten-workspace-tree', 'mode main']
+f = ['layout floating tiling', 'mode main']
 backspace = ['close-all-windows-but-current', 'mode main']
+ctrl-alt-shift-h = ['join-with left', 'mode main']
+ctrl-alt-shift-j = ['join-with down', 'mode main']
+ctrl-alt-shift-k = ['join-with up', 'mode main']
+ctrl-alt-shift-l = ['join-with right', 'mode main']
 
-# sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-#s = ['layout sticky tiling', 'mode main']
+# ── 窗口自动归类（按 bundle id 精确匹配）──
+# 截图工具悬浮，不参与平铺；check-further-callbacks 让后续归类规则继续跑
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = pl.maketheweb.cleanshotx || test %{app-bundle-id} = com.Snipaste'
+check-further-callbacks = true
+run = ['layout floating']
 
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
+# 1 终端
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.mitchellh.ghostty'
+run = ['move-node-to-workspace 1']
 
-down = 'volume down'
-up = 'volume up'
-shift-down = ['volume set 0', 'mode main']
+# 2 浏览器
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.google.Chrome || test %{app-bundle-id} = com.microsoft.edgemac'
+run = ['move-node-to-workspace 2']
+
+# 3 编辑器
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = dev.zed.Zed || test %{app-bundle-id} = com.microsoft.VSCode'
+run = ['move-node-to-workspace 3']
+
+# 4 AI（OpenAI 系 + 豆包 + 腾讯 ima）
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.openai.chat || test %{app-bundle-id} = com.openai.codex || test %{app-bundle-id} = com.bot.pc.doubao || test %{app-bundle-id} = com.tencent.imamac'
+run = ['move-node-to-workspace 4']
+
+# 5 数据 / 本地服务
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = org.jkiss.dbeaver.core.product || test %{app-bundle-id} = com.tinyapp.TablePlus || test %{app-bundle-id} = dev.kdrag0n.MacVirt || test %{app-bundle-id} = Dev.ServBay.macOS.ServBay'
+run = ['move-node-to-workspace 5']
+
+# 6 IM / 会议
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.tencent.xinWeChat || test %{app-bundle-id} = com.tencent.qq || test %{app-bundle-id} = ru.keepcoder.Telegram || test %{app-bundle-id} = com.tencent.meeting'
+run = ['move-node-to-workspace 6']
+
+# 7 笔记 / 任务
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = md.obsidian || test %{app-bundle-id} = com.flomoapp.m || test %{app-bundle-id} = com.TickTick.task.mac || test %{app-bundle-id} = com.linnk.Linnk || test %{app-bundle-id} = abnerworks.Typora'
+run = ['move-node-to-workspace 7']
+
+# 8 音乐
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.netease.163music'
+run = ['move-node-to-workspace 8']
+
+# 9 杂项（文件管理器兜底）
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.jinghaoshe.qspace.pro'
+run = ['move-node-to-workspace 9']
