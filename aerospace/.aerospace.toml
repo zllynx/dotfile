@@ -43,18 +43,18 @@ outer.bottom =     0
 outer.top =        0
 outer.right =      10
 
-# 双屏固定分区：1-5 常驻 27" 外接（RV200plus），6-9 常驻 MacBook 内屏（main）
-# 拔掉外接单屏使用时，1-5 自动回落到唯一屏幕
-[workspace-to-monitor-force-assignment]
-'1' = 'RV200plus'
-'2' = 'RV200plus'
-'3' = 'RV200plus'
-'4' = 'RV200plus'
-'5' = 'RV200plus'
-'6' = 'main'
+# 双屏固定分区：内屏(main)= 1 终端+ChatGPT、4 其他 AI、7-9 笔记/音乐/杂项
+#               外接(RV200plus) = 2 浏览器、3 编辑器、5 数据、6 IM/微信
+# 拔掉外接单屏使用时，外接工作区自动回落到唯一屏幕
+'1' = 'main'
+'4' = 'main'
 '7' = 'main'
 '8' = 'main'
 '9' = 'main'
+'2' = 'RV200plus'
+'3' = 'RV200plus'
+'5' = 'RV200plus'
+'6' = 'RV200plus'
 
 [mode.main.binding]
 ctrl-alt-enter = 'exec-and-forget open -a Ghostty'
@@ -125,9 +125,9 @@ if = 'test %{app-bundle-id} = pl.maketheweb.cleanshotx || test %{app-bundle-id} 
 check-further-callbacks = true
 run = ['layout floating']
 
-# 1 终端
+# 1 终端+ChatGPT（内屏并排主力区）
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = com.mitchellh.ghostty'
+if = 'test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.openai.chat'
 run = ['move-node-to-workspace 1']
 
 # 2 浏览器
@@ -140,9 +140,9 @@ run = ['move-node-to-workspace 2']
 if = 'test %{app-bundle-id} = dev.zed.Zed || test %{app-bundle-id} = com.microsoft.VSCode'
 run = ['move-node-to-workspace 3']
 
-# 4 AI（OpenAI 系 + 豆包 + 腾讯 ima）
+# 4 其他 AI（Codex + 豆包 + 腾讯 ima）
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = com.openai.chat || test %{app-bundle-id} = com.openai.codex || test %{app-bundle-id} = com.bot.pc.doubao || test %{app-bundle-id} = com.tencent.imamac'
+if = 'test %{app-bundle-id} = com.openai.codex || test %{app-bundle-id} = com.bot.pc.doubao || test %{app-bundle-id} = com.tencent.imamac'
 run = ['move-node-to-workspace 4']
 
 # 5 数据 / 本地服务
