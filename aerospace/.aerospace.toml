@@ -9,7 +9,7 @@
 #  M+shift+q / M+shift+z  窗口扔到另一屏并跟过去     M+f              放大/还原
 #  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
 #  M+slash          横竖布局轮换              M+comma          accordion 轮换
-#  M+space          service 模式（esc 退出并重载配置）
+#  M+;              service 模式（esc 退出并重载配置）
 # ────────────────────────────────────────────────────────────────
 config-version = 2
 
@@ -106,7 +106,7 @@ ctrl-alt-shift-z = 'move-node-to-monitor down --focus-follows-window'    # 丢�
 ctrl-alt-f = 'layout accordion tiles'  # 放大⇄还原当前窗口（占满工作区，不创建新桌面）
 ctrl-alt-comma = 'layout accordion horizontal vertical'
 ctrl-alt-shift-space = 'layout floating tiling'
-ctrl-alt-space = 'mode service'
+ctrl-alt-semicolon = 'mode service'
 ctrl-alt-slash = 'layout tiles horizontal vertical'
 
 [mode.service.binding]
