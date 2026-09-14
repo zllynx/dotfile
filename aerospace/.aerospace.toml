@@ -43,19 +43,19 @@ outer.bottom =     0
 outer.top =        0
 outer.right =      10
 
-# 双屏固定分区：内屏(built-in) = 1 终端+ChatGPT、4 其他 AI、7-9 笔记/音乐/杂项
-#               外接(RV200plus) = 2 浏览器、3 编辑器、5 数据、6 IM/微信
+# 双屏固定分区：外接(RV200plus) = 工作：1 终端+ChatGPT、2 浏览器、3 编辑器、4 其他 AI、5 数据
+#               内屏(built-in) = 私人：6 IM/微信、7 笔记、8 音乐、9 杂项
 # 拔掉外接单屏使用时，外接工作区自动回落到唯一屏幕
 [workspace-to-monitor-force-assignment]
-'1' = 'built-in'
-'4' = 'built-in'
+'1' = 'RV200plus'
+'2' = 'RV200plus'
+'3' = 'RV200plus'
+'4' = 'RV200plus'
+'5' = 'RV200plus'
+'6' = 'built-in'
 '7' = 'built-in'
 '8' = 'built-in'
 '9' = 'built-in'
-'2' = 'RV200plus'
-'3' = 'RV200plus'
-'5' = 'RV200plus'
-'6' = 'RV200plus'
 
 [mode.main.binding]
 ctrl-alt-enter = 'exec-and-forget open -a Ghostty'
