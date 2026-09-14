@@ -46,6 +46,7 @@ outer.right =      10
 # 双屏固定分区：内屏(main)= 1 终端+ChatGPT、4 其他 AI、7-9 笔记/音乐/杂项
 #               外接(RV200plus) = 2 浏览器、3 编辑器、5 数据、6 IM/微信
 # 拔掉外接单屏使用时，外接工作区自动回落到唯一屏幕
+[workspace-to-monitor-force-assignment]
 '1' = 'main'
 '4' = 'main'
 '7' = 'main'
