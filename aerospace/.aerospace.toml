@@ -2,8 +2,8 @@
 # 快捷键前缀 M = ctrl+alt（Karabiner 把右 Cmd 映射为 ctrl+alt，左手零占用）
 #
 # ── 速查 ─────────────────────────────────────────────────────────
-#  M+h/j/k/l        焦点 左/下/上/右          M+Enter          打开 Ghostty
-#  M+shift+h/j/k/l  移动窗口                  M+1..9           看 workspace N
+#  M+w/a/s/d        焦点 上/左/下/右          M+Enter          打开 Ghostty
+#  M+shift+w/a/s/d  移动窗口                  M+1..9           看 workspace N
 #  M+shift+1..9     丢窗口到 workspace N      M+tab            回上一个 workspace
 #  M+up/down        焦点切屏 (上=27"/下=MBP)  M+shift+tab      workspace 挪到另一屏
 #  M+shift+up/down  窗口扔到另一屏            M+f              全屏
@@ -59,15 +59,15 @@ outer.right =      10
 [mode.main.binding]
 ctrl-alt-enter = 'exec-and-forget open -a Ghostty'
 
-# 焦点与移动（vim 方位）
-ctrl-alt-h = 'focus left'
-ctrl-alt-j = 'focus down'
-ctrl-alt-k = 'focus up'
-ctrl-alt-l = 'focus right'
-ctrl-alt-shift-h = 'move left'
-ctrl-alt-shift-j = 'move down'
-ctrl-alt-shift-k = 'move up'
-ctrl-alt-shift-l = 'move right'
+# 焦点与移动（wasd 方位：w 上 a 左 s 下 d 右）
+ctrl-alt-w = 'focus up'
+ctrl-alt-a = 'focus left'
+ctrl-alt-s = 'focus down'
+ctrl-alt-d = 'focus right'
+ctrl-alt-shift-w = 'move up'
+ctrl-alt-shift-a = 'move left'
+ctrl-alt-shift-s = 'move down'
+ctrl-alt-shift-d = 'move right'
 
 # 缩放
 ctrl-alt-minus = 'resize smart -50'
@@ -113,10 +113,10 @@ esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main']
 f = ['layout floating tiling', 'mode main']
 backspace = ['close-all-windows-but-current', 'mode main']
-ctrl-alt-shift-h = ['join-with left', 'mode main']
-ctrl-alt-shift-j = ['join-with down', 'mode main']
-ctrl-alt-shift-k = ['join-with up', 'mode main']
-ctrl-alt-shift-l = ['join-with right', 'mode main']
+ctrl-alt-shift-w = ['join-with up', 'mode main']
+ctrl-alt-shift-a = ['join-with left', 'mode main']
+ctrl-alt-shift-s = ['join-with down', 'mode main']
+ctrl-alt-shift-d = ['join-with right', 'mode main']
 
 # ── 窗口自动归类（按 bundle id 精确匹配）──
 # 截图工具悬浮，不参与平铺；check-further-callbacks 让后续归类规则继续跑
