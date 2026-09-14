@@ -6,7 +6,7 @@
 #  M+shift+w/a/s/d  移动窗口                  M+1..9           看 workspace N
 #  M+shift+1..9     丢窗口到 workspace N      M+tab            回上一个 workspace
 #  M+q / M+z        焦点切上屏/下屏 (Q左上=外接 Z左下=MBP)  M+shift+tab   workspace 挪到另一屏
-#  M+shift+q / M+shift+z  窗口扔到另一屏                    M+f              放大/还原
+#  M+shift+q / M+shift+z  窗口扔到另一屏并跟过去     M+f              放大/还原
 #  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
 #  M+slash          横竖布局轮换              M+comma          accordion 轮换
 #  M+space          service 模式（esc 退出并重载配置）
@@ -100,8 +100,8 @@ ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 # 双屏上下布局：外接在上，MacBook 在下；Q=字母区左上=上屏，Z=左下=下屏
 ctrl-alt-q = 'focus-monitor up'
 ctrl-alt-z = 'focus-monitor down'
-ctrl-alt-shift-q = 'move-node-to-monitor up'
-ctrl-alt-shift-z = 'move-node-to-monitor down'
+ctrl-alt-shift-q = 'move-node-to-monitor up --focus-follows-window'      # 丢上去并跟过去
+ctrl-alt-shift-z = 'move-node-to-monitor down --focus-follows-window'    # 丢下去并跟过去
 
 ctrl-alt-f = 'layout accordion tiles'  # 放大⇄还原当前窗口（占满工作区，不创建新桌面）
 ctrl-alt-slash = 'layout tiles horizontal vertical'
