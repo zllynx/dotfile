@@ -27,7 +27,7 @@ default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
-automatically-unhide-macos-hidden-apps = false
+automatically-unhide-macos-hidden-apps = true  # ⌘+H 藏起来的 app，切到它的工作区自动唤起
 
 # 空 workspace 常驻：数字随时可按，不必先有窗口
 persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -107,7 +107,7 @@ ctrl-alt-shift-down = 'move-node-to-monitor down'
 ctrl-alt-shift-left = 'move-node-to-monitor left'
 ctrl-alt-shift-right = 'move-node-to-monitor right'
 
-ctrl-alt-f = 'fullscreen'
+ctrl-alt-f = 'layout accordion tiles'  # 放大⇄还原当前窗口（占满工作区，不创建新桌面）
 ctrl-alt-slash = 'layout tiles horizontal vertical'
 ctrl-alt-comma = 'layout accordion horizontal vertical'
 ctrl-alt-shift-space = 'layout floating tiling'
@@ -130,7 +130,7 @@ if = 'test %{app-bundle-id} = pl.maketheweb.cleanshotx || test %{app-bundle-id} 
 check-further-callbacks = true
 run = ['layout floating']
 
-# 1 终端+ChatGPT（内屏并排主力区）
+# 1 终端+ChatGPT（外接主力区）
 [[on-window-detected]]
 if = 'test %{app-bundle-id} = com.mitchellh.ghostty || test %{app-bundle-id} = com.openai.chat'
 run = ['move-node-to-workspace 1']
@@ -154,6 +154,12 @@ run = ['move-node-to-workspace 4']
 [[on-window-detected]]
 if = 'test %{app-bundle-id} = org.jkiss.dbeaver.core.product || test %{app-bundle-id} = com.tinyapp.TablePlus || test %{app-bundle-id} = dev.kdrag0n.MacVirt || test %{app-bundle-id} = Dev.ServBay.macOS.ServBay'
 run = ['move-node-to-workspace 5']
+
+# 微信：浮动面板（不平铺）；check-further-callbacks 让下方 IM 规则继续把它送去 6 号
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.tencent.xinWeChat'
+check-further-callbacks = true
+run = ['layout floating']
 
 # 6 IM / 会议
 [[on-window-detected]]
