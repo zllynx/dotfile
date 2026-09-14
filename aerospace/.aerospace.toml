@@ -8,7 +8,7 @@
 #  M+q / M+z        焦点切上屏/下屏 (Q左上=外接 Z左下=MBP)  M+shift+tab   workspace 挪到另一屏
 #  M+shift+q / M+shift+z  窗口扔到另一屏并跟过去     M+f              放大/还原
 #  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
-#  M+t              横竖布局轮换              M+comma          accordion 轮换
+#  M+slash          横竖布局轮换              M+comma          accordion 轮换
 #  M+space          service 模式（esc 退出并重载配置）
 # ────────────────────────────────────────────────────────────────
 config-version = 2
@@ -107,7 +107,7 @@ ctrl-alt-f = 'layout accordion tiles'  # 放大⇄还原当前窗口（占满工
 ctrl-alt-comma = 'layout accordion horizontal vertical'
 ctrl-alt-shift-space = 'layout floating tiling'
 ctrl-alt-space = 'mode service'
-ctrl-alt-t = 'layout tiles horizontal vertical'  # 转方向（原 ⌘+/ 因 HHKB / 键被箭头占用而迁移）
+ctrl-alt-slash = 'layout tiles horizontal vertical'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
