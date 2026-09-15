@@ -798,7 +798,7 @@
                         ]
                     },
                     {
-                        "description": "Tab dual: tap=Tab, hold=layer (3EDC/2WSX/1QAZ -> F1-F12; jkl=vol-, vol+, mute; uio=prev, next, play/pause; h=left)",
+                        "description": "Tab dual: tap=Tab, hold=layer (3EDC/2WSX/1QAZ -> F1-F12; hjkl=arrows; uio=prev,next,play; m,comma,period=vol-,vol+,mute)",
                         "manipulators": [
                             {
                                 "from": {
@@ -1093,7 +1093,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "volume_decrement"
+                                        "key_code": "down_arrow"
                                     }
                                 ]
                             },
@@ -1111,7 +1111,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "volume_increment"
+                                        "key_code": "up_arrow"
                                     }
                                 ]
                             },
@@ -1129,7 +1129,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "mute"
+                                        "key_code": "right_arrow"
                                     }
                                 ]
                             },
@@ -1184,6 +1184,60 @@
                                 "to": [
                                     {
                                         "key_code": "play_or_pause"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    {
+                                        "name": "tab_layer",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "m"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "volume_decrement"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    {
+                                        "name": "tab_layer",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "comma"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "volume_increment"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    {
+                                        "name": "tab_layer",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "period"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "mute"
                                     }
                                 ]
                             }
