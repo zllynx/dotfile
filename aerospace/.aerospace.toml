@@ -113,12 +113,7 @@ ctrl-alt-l = 'join-with right'  # 和右方邻居缝合
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main']
-f = ['layout floating tiling', 'mode main']
 backspace = ['close-all-windows-but-current', 'mode main']
-ctrl-alt-shift-w = ['join-with up', 'mode main']
-ctrl-alt-shift-a = ['join-with left', 'mode main']
-ctrl-alt-shift-s = ['join-with down', 'mode main']
-ctrl-alt-shift-d = ['join-with right', 'mode main']
 
 # ── 窗口自动归类（按 bundle id 精确匹配）──
 # 截图工具悬浮，不参与平铺；check-further-callbacks 让后续归类规则继续跑
