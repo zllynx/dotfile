@@ -9,6 +9,7 @@
 #  M+shift+q / M+shift+z  窗口扔到另一屏并跟过去     M+f              放大/还原
 #  M+minus/equal    缩小/放大                 M+shift+space    浮动 ⇄ 平铺
 #  M+slash          横竖布局轮换              M+comma          accordion 轮换
+#  M+j / k / h / l  与 下/上/左/右 邻居缝合（join，造容器）
 #  M+;              service 模式（esc 退出并重载配置）
 # ────────────────────────────────────────────────────────────────
 config-version = 2
@@ -104,6 +105,10 @@ ctrl-alt-comma = 'layout accordion horizontal vertical'
 ctrl-alt-shift-space = 'layout floating tiling'
 ctrl-alt-semicolon = 'mode service'
 ctrl-alt-slash = 'layout tiles horizontal vertical'
+ctrl-alt-j = 'join-with down'   # 和下方邻居缝合成一组
+ctrl-alt-k = 'join-with up'     # 和上方邻居缝合
+ctrl-alt-h = 'join-with left'   # 和左方邻居缝合
+ctrl-alt-l = 'join-with right'  # 和右方邻居缝合
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
