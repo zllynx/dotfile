@@ -166,7 +166,7 @@ run = ['move-node-to-workspace 7']
 # 8 音乐
 [[on-window-detected]]
 if = 'test %{app-bundle-id} = com.netease.163music'
-run = ['move-node-to-workspace 8']
+run = ['move-node-to-workspace --focus-follows-window 8']
 
 # 9 杂项（文件管理器兜底）
 [[on-window-detected]]
