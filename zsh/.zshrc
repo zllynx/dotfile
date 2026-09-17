@@ -398,9 +398,6 @@ fi
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --walker file --walker-skip .git,node_modules,target,dist,build,__pycache__'
 alias fzfp='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 
-# 关闭 homebrew 自动更新
-export HOMEBREW_NO_AUTO_UPDATE=true
-
 # set default editor
 export EDITOR=nvim
 
