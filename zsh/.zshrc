@@ -246,9 +246,27 @@ add-zsh-hook precmd _prompt_add_newline
 # Post-init module configuration
 # ------------------------------
 
-#  fix [BUG] Completion failing on Ubuntu 20.04 (fzf version <= 0.20.0)
-#  https://github.com/Aloxaf/fzf-tab/issues/391
-zstyle ':fzf-tab:*' fzf-bindings-default 'tab:down,btab:up,change:top,ctrl-space:toggle,bspace:backward-delete-char,ctrl-h:backward-delete-char'
+#
+# fzf-tab Tab 行为修正
+#
+
+# 旧版 fzf(<=0.20) 的 workaround; 现版 fzf-tab 里 `fzf-bindings-default` 不是有效 style,
+# 这行一直是静默 no-op, 删除 (2026-09, fzf 0.73 验证).
+
+# 光标前没有词(空行/空白之后)时, Tab 不再触发 fzf-tab:
+# 否则补全完成后手滑再按一次 Tab 会对"空词"补全 → 弹出全文件 fzf picker,
+# 这时再按 Enter 会把高亮文件名又插一遍 (zsh_history 实锤: `n dtso.conf dtso.conf`).
+# 代价: `cd <tab>` 这类空词补全不再直接弹 picker, 需先输入至少一个字符.
+ftb-smart-tab() {
+  if [[ -n $LBUFFER && $LBUFFER[-1] != ' ' && $LBUFFER[-1] != $'\t' ]]; then
+    zle fzf-tab-complete
+  else
+    zle -M 'nothing to complete'
+  fi
+}
+zle -N ftb-smart-tab
+bindkey -M emacs '^I' ftb-smart-tab
+bindkey -M viins '^I' ftb-smart-tab
 
 # pinyin support for fzf-tab: 所有补全支持拼音搜索中文
 zstyle ':fzf-tab:*' fzf-command pinyin-fzf
