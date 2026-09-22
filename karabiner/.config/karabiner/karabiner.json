@@ -826,23 +826,8 @@
                                         }
                                     }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "tab_layer",
-                                                "value": 0
-                                            }
-                                        },
-                                        {
-                                            "key_code": "tab"
-                                        }
-                                    ],
-                                    "to_if_canceled": []
-                                },
                                 "parameters": {
-                                    "basic.to_if_alone_timeout_milliseconds": 200,
-                                    "basic.to_delayed_action_delay_milliseconds": 500
+                                    "basic.to_if_alone_timeout_milliseconds": 200
                                 }
                             },
                             {
