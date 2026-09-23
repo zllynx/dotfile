@@ -163,10 +163,11 @@ run = ['move-node-to-workspace 6']
 if = 'test %{app-bundle-id} = md.obsidian || test %{app-bundle-id} = com.flomoapp.m || test %{app-bundle-id} = com.TickTick.task.mac || test %{app-bundle-id} = com.linnk.Linnk || test %{app-bundle-id} = abnerworks.Typora'
 run = ['move-node-to-workspace 7']
 
-# 8 音乐
+# 8 音乐：浮动（不平铺）
 [[on-window-detected]]
 if = 'test %{app-bundle-id} = com.netease.163music'
-run = ['move-node-to-workspace --focus-follows-window 8']
+check-further-callbacks = true
+run = ['layout floating', 'move-node-to-workspace --focus-follows-window 8']
 
 # 9 杂项（文件管理器兜底）
 [[on-window-detected]]
