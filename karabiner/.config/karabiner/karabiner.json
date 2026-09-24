@@ -798,7 +798,7 @@
                         ]
                     },
                     {
-                        "description": "Tab dual: tap=Tab, hold=layer (3EDC/2WSX/1QAZ -> F1-F12; hjkl=arrows; uio=prev,next,play; m,comma,period=vol-,vol+,mute)",
+                        "description": "Tab dual: tap=Tab, hold=layer (3EDC/2WSX/1QAZ -> F1-F12; hjkl=arrows; uio=prev,next,play; n,m,comma=vol-,vol+,mute)",
                         "manipulators": [
                             {
                                 "from": {
@@ -1182,7 +1182,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "m"
+                                    "key_code": "n"
                                 },
                                 "to": [
                                     {
@@ -1200,7 +1200,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "comma"
+                                    "key_code": "m"
                                 },
                                 "to": [
                                     {
@@ -1218,7 +1218,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "period"
+                                    "key_code": "comma"
                                 },
                                 "to": [
                                     {
