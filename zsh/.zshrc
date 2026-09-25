@@ -107,10 +107,14 @@ fi
 
 # 代理端口配置（可在 ~/.user_env.sh 中覆盖）
 # - macOS:              v2rayN 混合口 10808, http/socks 同端口
-# - WSL (Windows 宿主): naive 节点 http=12445, socks=11080, 两个独立端口
+# - WSL (Windows 宿主): naive 节点 http=12445, socks=21080, 两个独立端口
+#   端口须避开 Windows 动态端口保留区 (winnat/Hyper-V 每次开机重新随机, 会吞掉端口):
+#   naive 绑到保留区会 WSAEACCES 秒退, v2rayN 报 "运行 Core 失败"。
+#   排查: netsh interface ipv4 show excludedportrange protocol=tcp
+#   这里的端口必须与 v2rayN 节点配置 guiConfigs/<guid>.json 的 listen 一致
 if _is_wsl; then
     export PROXY_PORT=${PROXY_PORT:-12445}
-    export PROXY_SOCKS_PORT=${PROXY_SOCKS_PORT:-11080}
+    export PROXY_SOCKS_PORT=${PROXY_SOCKS_PORT:-21080}
 else
     export PROXY_PORT=${PROXY_PORT:-10808}
 fi
