@@ -1,0 +1,19 @@
+# 插件快捷键（官方 README 默认键位，按需调整）
+
+# smart-enter：目录进入/文件打开（接管 l 键）
+[[mgr.prepend_keymap]]
+on   = "l"
+run  = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
+
+# chmod：批量改权限
+[[mgr.prepend_keymap]]
+on   = [ "c", "m" ]
+run  = "plugin chmod"
+desc = "Chmod on selected files"
+
+# toggle-pane：显示/隐藏预览面板
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin toggle-pane min-preview"
+desc = "Show or hide the preview pane"

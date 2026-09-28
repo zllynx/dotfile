@@ -1,0 +1,3 @@
+# 插件/主题实体是 ya pkg 的 git clone，由 package.toml 清单再生，新机器执行 `ya pkg install`
+/plugins/
+/flavors/

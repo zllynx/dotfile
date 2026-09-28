@@ -14,6 +14,7 @@ dotfile/
 ├── wezterm/           # WezTerm 终端配置
 ├── aerospace/         # Aerospace 窗口管理器配置
 ├── ranger/            # Ranger 文件管理器配置
+├── yazi/              # Yazi 文件管理器配置（package.toml 为插件/主题清单）
 ├── zellij/            # Zellij 终端复用器配置
 ├── starship/          # Starship 提示符配置
 ├── karabiner/         # Karabiner (macOS) 键盘改键
@@ -135,6 +136,13 @@ for dir in */; do stow -D "${dir%/}"; done
 - `config.yml.lock` — omp 顺着软链写回的锁文件，已 gitignore
 
 omp 的 `config set` / `/settings` 会跟随软链写入本体，直接在会话里改配置即可，改完到 `~/dotfile` 提交。
+
+### Yazi
+- 配置本体在 `yazi/.config/yazi/`，`stow yazi` 后 `~/.config/yazi/` 为软链
+- `package.toml` 是插件/主题清单（由 `ya pkg add` 自动维护），`plugins/`、`flavors/` 是它的 git clone，已 gitignore 不入仓
+- **新机器部署：stow 后执行一次 `ya pkg install`，按清单自动装齐插件和主题**
+- 新增插件：`ya pkg add <owner>/<repo>:<name>`（写入 package.toml 并提交本仓库）；升级：`ya pkg upgrade`
+- 插件接线：git → `init.lua` + `yazi.toml` fetchers；smart-enter(`l`)、chmod(`c m`)、toggle-pane(`T`) → `keymap.toml`
 
 ## Agent 配置管理
 

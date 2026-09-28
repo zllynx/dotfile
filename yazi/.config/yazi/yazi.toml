@@ -1,0 +1,10 @@
+# git 插件：把 git 状态注册为 fetcher（官方 README 推荐写法）
+[[plugin.prepend_fetchers]]
+url   = "*"
+run   = "git"
+group = "git"
+
+[[plugin.prepend_fetchers]]
+url   = "*/"
+run   = "git"
+group = "git"
