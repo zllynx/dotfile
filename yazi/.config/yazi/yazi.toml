@@ -2,6 +2,12 @@
 [mgr]
 sort_by = "natural"
 
+# 目录用 o 直接 Finder 打开（默认第一个是 edit），菜单顺序 Open→Reveal→Edit；不影响 l 进入目录
+[open]
+prepend_rules = [
+	{ mime = "folder/*", use = [ "open", "reveal", "edit" ] },
+]
+
 # git 插件：把 git 状态注册为 fetcher（官方 README 推荐写法）
 [[plugin.prepend_fetchers]]
 url   = "*"
