@@ -18,6 +18,22 @@ on   = "T"
 run  = "plugin toggle-pane min-preview"
 desc = "Show or hide the preview pane"
 
+# clipboard：y/x 一键写入系统剪贴板（微信/Finder 可 ⌘V 粘贴文件），C-p 反向粘入
+[[mgr.prepend_keymap]]
+on  = "y"
+run = [ "yank", 'plugin clipboard -- --action=copy' ]
+desc = "Yank selected files (copy)"
+
+[[mgr.prepend_keymap]]
+on  = "x"
+run = [ "yank --cut", 'plugin clipboard -- --action=copy' ]
+desc = "Yank selected files (cut)"
+
+[[mgr.prepend_keymap]]
+on  = "<C-p>"
+run = 'plugin clipboard -- --action=paste'
+desc = "Paste files from system clipboard"
+
 # yamb：书签（u 前缀）
 [[mgr.prepend_keymap]]
 on   = [ "u", "a" ]

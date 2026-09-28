@@ -23,6 +23,11 @@ use = "h-hg/yamb"
 rev = "971b858"
 hash = "da4534745930e827a44d4585bbd965eb"
 
+[[plugin.deps]]
+use = "XYenon/clipboard"
+rev = "a2655fd"
+hash = "90625fa33e3372073d60f124c3c867"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-frappe"
 rev = "0670801"
