@@ -446,10 +446,11 @@ if command -v lsd &> /dev/null; then # In unix , exit code 0 is true.
   alias ls='lsd'
   alias l='ls -l'
   alias la='ls -a'
+  alias ll='ls -lrth'
   alias lla='ls -la'
   alias lt='ls --tree'
 else
-  alias ll='ls -lF'
+  alias ll='ls -lrthF'
   alias lla='ls -alF'
   alias la='ls -A'
   alias l='ls -CF'
