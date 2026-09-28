@@ -1,3 +1,7 @@
+# 自然排序：1.md < 2.md < 10.md
+[mgr]
+sort_by = "natural"
+
 # git 插件：把 git 状态注册为 fetcher（官方 README 推荐写法）
 [[plugin.prepend_fetchers]]
 url   = "*"
