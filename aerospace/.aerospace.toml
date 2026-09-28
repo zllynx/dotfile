@@ -147,15 +147,19 @@ run = ['move-node-to-workspace 4']
 if = 'test %{app-bundle-id} = org.jkiss.dbeaver.core.product || test %{app-bundle-id} = com.tinyapp.TablePlus || test %{app-bundle-id} = dev.kdrag0n.MacVirt || test %{app-bundle-id} = Dev.ServBay.macOS.ServBay'
 run = ['move-node-to-workspace 5']
 
-# 微信：浮动面板（不平铺）；check-further-callbacks 让下方 IM 规则继续把它送去 6 号
+# 微信主窗口：浮动并送去 6 号
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.tencent.xinWeChat && test %{window-title} = 微信'
+run = ['layout floating', 'move-node-to-workspace 6']
+
+# 微信子窗口（图片/视频查看器等）：原位浮动，不挪窝不闪
 [[on-window-detected]]
 if = 'test %{app-bundle-id} = com.tencent.xinWeChat'
-check-further-callbacks = true
 run = ['layout floating']
 
 # 6 IM / 会议
 [[on-window-detected]]
-if = 'test %{app-bundle-id} = com.tencent.xinWeChat || test %{app-bundle-id} = com.tencent.qq || test %{app-bundle-id} = ru.keepcoder.Telegram || test %{app-bundle-id} = com.tencent.meeting'
+if = 'test %{app-bundle-id} = com.tencent.qq || test %{app-bundle-id} = ru.keepcoder.Telegram || test %{app-bundle-id} = com.tencent.meeting'
 run = ['move-node-to-workspace 6']
 
 # 7 笔记 / 任务
