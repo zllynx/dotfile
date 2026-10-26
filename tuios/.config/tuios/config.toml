@@ -154,3 +154,7 @@ send_prefix = ["ctrl+s"]
 
 [appearance]
 preferred_shell = "/bin/zsh"
+auto_enter_terminal_on_focus = "all"
+
+[keybindings.terminal_mode]
+terminal_exit_mode = []
