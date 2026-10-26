@@ -151,3 +151,6 @@ move_workspace_left = ["<"]
 move_workspace_right = [">"]
 # prefix+prefix 把 ctrl+s 转发给 pane 里的程序 (tmux 默认 send-prefix)
 send_prefix = ["ctrl+s"]
+
+[appearance]
+preferred_shell = "/bin/zsh"
