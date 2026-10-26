@@ -12,7 +12,7 @@ dotfile/
 ├── zsh/               # Zsh 配置
 ├── ghostty/           # Ghostty 终端配置
 ├── wezterm/           # WezTerm 终端配置
-├── tuios/             # Tuios 终端窗口管理器配置（Library/Application Support/tuios/config.toml，键位对齐 tmux）
+├── tuios/             # Tuios 终端窗口管理器配置（.config/tuios/config.toml，经 XDG_CONFIG_HOME 生效，键位对齐 tmux）
 ├── aerospace/         # Aerospace 窗口管理器配置
 ├── ranger/            # Ranger 文件管理器配置
 ├── yazi/              # Yazi 文件管理器配置（package.toml 为插件/主题清单）

@@ -3,6 +3,9 @@
 # User configuration sourced by interactive shells
 #
 
+# XDG: tuios 等工具优先读 $XDG_CONFIG_HOME/tuios/，与 Linux 侧 .config 惯例对齐
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # -----------------
 # Zsh configuration
 # -----------------
