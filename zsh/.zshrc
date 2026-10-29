@@ -98,6 +98,8 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # WSL 判定: Windows 宿主跑 v2rayN (naive 节点), 端口与 macOS 不同
 _is_wsl() { [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; }
+# WSL2 内核版本号以 "WSL2" 结尾 (如 5.15.x-microsoft-standard-WSL2); WSL1 只是 "-microsoft"
+_is_wsl1() { _is_wsl && [[ $(uname -r) != *WSL2* ]]; }
 
 # Windows PATH 精简: wsl.conf appendWindowsPath=false 后, 只补必要目录
 # (powershell.exe 供 omp-done toast 通知使用; .exe 仍可直接执行, 只是不再全量注入 PATH)
@@ -128,6 +130,10 @@ setup_proxy_host() {
     local os_type=$(uname -s)
 
     if [[ "$os_type" == "Darwin" ]]; then
+        export PROXY_HOST="127.0.0.1"
+    elif _is_wsl1; then
+        # WSL1 与 Windows 共享网络栈: 127.0.0.1 即 Windows 本机回环, 代理监听 127.0.0.1 即可达;
+        # ip route/resolv.conf 给的是局域网网关/DNS, 不是宿主 IP, 不能用 WSL2 的探测逻辑
         export PROXY_HOST="127.0.0.1"
     elif _is_wsl; then
         # WSL: 优先用默认网关, 失败则退回 resolv.conf
