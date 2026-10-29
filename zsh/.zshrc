@@ -466,7 +466,7 @@ else
 fi
 
 # some universal path
-export PATH=$PATH:$HOME/.local/bin 
+export PATH="$HOME/.local/bin:$PATH"
 export PATH=$PATH:$HOME/.tmux/plugins/tmuxifier/bin
 
 # set hugging face mirror site
