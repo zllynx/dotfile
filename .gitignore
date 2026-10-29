@@ -19,3 +19,6 @@ karabiner/.config/karabiner/automatic_backups/
 
 # omp runtime lock
 omp/.omp/agent/config.yml.lock
+
+# omp provider keys (含明文 API key, 仅实体文件)
+omp/.omp/agent/models.yml
